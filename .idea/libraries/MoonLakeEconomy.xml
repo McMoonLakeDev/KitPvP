@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="MoonLakeEconomy">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Desktop/api/main/MoonLakeEconomy.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="file://$PROJECT_DIR$/../../MoonLakeEconomy/doc" />
+    </JAVADOC>
+    <SOURCES />
+  </library>
+</component>
