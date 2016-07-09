@@ -1,5 +1,7 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.skill;
 
+import com.minecraft.moonlake.kitpvp.KitPvPPlugin;
+import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.SkillComboManager;
@@ -17,8 +19,19 @@ public abstract class AbstractSkill implements Skill {
     public AbstractSkill(String name) {
 
         this.name = name;
+        this.comboId = 0;
         this.cooldown = 0;
         this.displayName = name;
+    }
+
+    /**
+     * 获取职业战争 KitPvP 实例对象
+     *
+     * @return 实例
+     */
+    protected final KitPvP getMain() {
+
+        return KitPvPPlugin.getInstances();
     }
 
     /**
@@ -101,7 +114,7 @@ public abstract class AbstractSkill implements Skill {
     /**
      * 将此技能强制释放
      *
-     * @param kitPvPPlayer 释放者
+     * @param owner 释放者
      */
-    public abstract void cast(KitPvPPlayer kitPvPPlayer);
+    public abstract void cast(KitPvPPlayer owner);
 }

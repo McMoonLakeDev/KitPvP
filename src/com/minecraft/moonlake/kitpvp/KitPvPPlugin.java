@@ -6,6 +6,14 @@ import com.minecraft.moonlake.economy.Economy;
 import com.minecraft.moonlake.economy.api.MoonLakeEconomy;
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.account.PlayerAccount;
+import com.minecraft.moonlake.kitpvp.api.config.KitPvPConfig;
+import com.minecraft.moonlake.kitpvp.api.language.KitPvPLanguage;
+import com.minecraft.moonlake.kitpvp.config.KitPvPConfigUtil;
+import com.minecraft.moonlake.kitpvp.language.KitPvPLanguageUtil;
+import com.minecraft.moonlake.kitpvp.listeners.block.FallingBlockListener;
+import com.minecraft.moonlake.kitpvp.listeners.player.PlayerBaseListener;
+import com.minecraft.moonlake.kitpvp.listeners.player.PlayerComboListener;
+import com.minecraft.moonlake.kitpvp.manager.ConfigManager;
 import com.minecraft.moonlake.kitpvp.util.AccountUtil;
 import com.minecraft.moonlake.util.Util;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -27,6 +35,8 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
     private MoonLake moonLake;
     private MoonLakeEconomy moonLakeEconomy;
     private PlayerAccount playerAccount;
+    private KitPvPConfig kitPvPConfig;
+    private KitPvPLanguage kitPvPLanguage;
 
     private ClassLoader classLoader;
     private PluginManager pluginManager;
@@ -35,6 +45,9 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
     private final ConsoleCommandSender console;
 
     private static KitPvP MAIN;
+    private static boolean DEBUG;
+
+    private FallingBlockListener fallingBlockListener;
 
     public KitPvPPlugin() {
 
@@ -52,9 +65,24 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
         classLoader = getClassLoader();
         pluginManager = getServer().getPluginManager();
 
-        //initFolder();
+        initFolder();
+
+        kitPvPConfig = new KitPvPConfigUtil(getInstance());
+
+        initDebugMode();
+
+        kitPvPLanguage = new KitPvPLanguageUtil(getInstance());
+        kitPvPLanguage.loadKitPvPLanguage();
 
         playerAccount = new AccountUtil(getInstance());
+
+        fallingBlockListener = new FallingBlockListener(getInstance());
+
+        pluginManager.registerEvents(fallingBlockListener, this);
+        pluginManager.registerEvents(new PlayerBaseListener(getInstance()), this);
+        pluginManager.registerEvents(new PlayerComboListener(getInstance()), this);
+
+        this.log("月色之湖职业战争 KitPvP 插件 v" + getPluginVersion() + " 成功加载.");
     }
 
     @Override
@@ -85,6 +113,19 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
             this.log("前置创世神 WorldEdit 插件加载失败.");
             this.getServer().getPluginManager().disablePlugin(this);
             return;
+        }
+    }
+
+    /**
+     * 初始化插件的 Debug 调试模式
+     */
+    private void initDebugMode() {
+
+        DEBUG = ConfigManager.get("Debug").asBoolean();
+
+        if(DEBUG) {
+
+            log("已启动插件 Debug 调试模式.");
         }
     }
 
@@ -155,6 +196,17 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
     }
 
     /**
+     * 获取插件的主类对象
+     *
+     * @return 主类
+     */
+    @Override
+    public KitPvPPlugin getMain() {
+
+        return this;
+    }
+
+    /**
      * 获取月色之湖前置核心 API 插件实例对象
      *
      * @return MoonLake
@@ -210,6 +262,17 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
     }
 
     /**
+     * 获取月色之湖职业战争配置文件对象
+     *
+     * @return 配置文件对象
+     */
+    @Override
+    public KitPvPConfig getKConfig() {
+
+        return kitPvPConfig;
+    }
+
+    /**
      * 获取插件的类加载器实例对象
      *
      * @return 类加载器
@@ -229,6 +292,53 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
     public PluginManager getPluginManager() {
 
         return pluginManager;
+    }
+
+    /**
+     * 获取指定语言文件的指定 键 的值
+     *
+     * @param key 键
+     * @return 值
+     */
+    @Override
+    public String l18n(String key) {
+
+        return kitPvPLanguage.l18n(key);
+    }
+
+    /**
+     * 获取指定语言文件的指定 键 的值
+     *
+     * @param key  键
+     * @param args 参数
+     * @return 值
+     */
+    @Override
+    public String l18n(String key, Object... args) {
+
+        return kitPvPLanguage.l18n(key, args);
+    }
+
+    /**
+     * 获取此插件是否为 Debug 调试模式
+     *
+     * @return true 则是 else 不是
+     */
+    @Override
+    public boolean isDebug() {
+
+        return DEBUG;
+    }
+
+    /**
+     * 获取掉落方块事件监听者对象
+     *
+     * @return 监听者对象
+     */
+    @Override
+    public FallingBlockListener getFallingBlockListener() {
+
+        return fallingBlockListener;
     }
 
     /**

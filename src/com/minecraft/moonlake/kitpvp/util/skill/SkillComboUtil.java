@@ -4,13 +4,11 @@ import com.minecraft.moonlake.kitpvp.api.occupa.skill.Skill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import com.minecraft.moonlake.kitpvp.language.l18n;
 import com.minecraft.moonlake.kitpvp.manager.SkillComboManager;
 import org.bukkit.Sound;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -28,7 +26,7 @@ public class SkillComboUtil implements SkillCombo {
     public SkillComboUtil(KitPvPPlayer kitPvPPlayer, int amount) {
 
         this.kitPvPPlayer = kitPvPPlayer;
-        this.combos = new SkillComboType[amount];
+        this.combos = new SkillComboType[amount + 1];
         this.skillMap = new HashMap<>();
         this.skillCoolDown = new HashMap<>();
         this.interval = 2000L;
@@ -51,15 +49,43 @@ public class SkillComboUtil implements SkillCombo {
         kitPvPPlayer.playSound(Sound.UI_BUTTON_CLICK, 10f, 1f);
 
         int id = SkillComboManager.convertCombo(combos, comboIndex);
-        if(comboIndex == combos.length && skillMap.containsKey(id)) {
+        if(comboIndex == combos.length || skillMap.containsKey(id)) {
 
             Skill skill = skillMap.get(id);
 
             if(skill != null) {
 
+                if(skillCoolDown.containsKey(id)) {
 
+                    long lastCastTime = skillCoolDown.get(id);
+
+                    if(System.currentTimeMillis() - lastCastTime < skill.getCoolDown()) {
+
+                        kitPvPPlayer.sendMainChatPacket(l18n.$("player.skill.cast.have.coolDown", getCurrentComboString(), d$n(skill), getCoolDown(id)));
+                        return;
+                    }
+                }
+                skill.cast(kitPvPPlayer);
+                skillCoolDown.put(id, System.currentTimeMillis());
+
+                kitPvPPlayer.sendMainChatPacket(l18n.$("player.skill.cast.success", getCurrentComboString(), d$n(skill)));
+
+                // combo finish to break combo
+                clearCombo();
             }
         }
+    }
+
+    private String d$n(Skill skill) {
+
+        return skill.getDisplayName() != null ? skill.getDisplayName() : skill.getName();
+    }
+
+    private int getCoolDown(int id) {
+
+        long lastCastTime = skillCoolDown.get(id);
+
+        return (int)(System.currentTimeMillis() - lastCastTime) / 1000;
     }
 
     /**

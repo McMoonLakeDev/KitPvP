@@ -3,7 +3,10 @@ package com.minecraft.moonlake.kitpvp.util.player;
 import com.minecraft.moonlake.api.nms.packet.PacketPlayOutChat;
 import com.minecraft.moonlake.kitpvp.api.occupa.Occupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import com.minecraft.moonlake.kitpvp.language.l18n;
+import com.minecraft.moonlake.kitpvp.util.skill.SkillComboUtil;
 import com.minecraft.moonlake.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,6 +17,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.Vector;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -24,11 +28,14 @@ public class PlayerUtil implements KitPvPPlayer {
     private final Player player;
     private Occupa occupa;
     private OccupaType occupaType;
+    private SkillCombo skillCombo;
 
     public PlayerUtil(String name) {
 
         this.name = name;
         this.player = Bukkit.getServer().getPlayer(name);
+
+        this.skillCombo = new SkillComboUtil(this, 3);
     }
 
     /**
@@ -85,6 +92,106 @@ public class PlayerUtil implements KitPvPPlayer {
 
         this.occupa = occupa;
         this.occupaType = occupa.getType();
+    }
+
+    /**
+     * 获取此玩家的技能组合对象
+     *
+     * @return 技能组合对象
+     */
+    @Override
+    public SkillCombo getSkillCombo() {
+
+        return skillCombo;
+    }
+
+    /**
+     * 给此玩家发送消息
+     *
+     * @param msg 消息
+     */
+    @Override
+    public void send(String msg) {
+
+        getBukkitPlayer().sendMessage(Util.color(msg));
+    }
+
+    /**
+     * 给此玩家发送消息
+     *
+     * @param msg 消息
+     */
+    @Override
+    public void send(String[] msg) {
+
+        getBukkitPlayer().sendMessage(Util.color(msg));
+    }
+
+    /**
+     * 给此玩家发送语言文件指定 键 的值
+     *
+     * @param key 键
+     */
+    @Override
+    public void l18n(String key) {
+
+        send(l18n.$(key));
+    }
+
+    /**
+     * 给此玩家发送语言文件指定 键 的值
+     *
+     * @param key  键
+     * @param args 参数
+     */
+    @Override
+    public void l18n(String key, Object... args) {
+
+        send(l18n.$(key, args));
+    }
+
+    /**
+     * 获取此玩家的当前血量
+     *
+     * @return 血量
+     */
+    @Override
+    public double getHealth() {
+
+        return getBukkitPlayer().getHealth();
+    }
+
+    /**
+     * 获取此玩家的最大生命
+     *
+     * @return 最大血量
+     */
+    @Override
+    public double getMaxHealth() {
+
+        return getBukkitPlayer().getMaxHealth();
+    }
+
+    /**
+     * 设置此玩家的最大生命
+     *
+     * @param maxHealth 最大生命
+     */
+    @Override
+    public void setMaxHealth(double maxHealth) {
+
+        getBukkitPlayer().setMaxHealth(maxHealth);
+    }
+
+    /**
+     * 设置此玩家的当前生命
+     *
+     * @param health 当前生命
+     */
+    @Override
+    public void setHealth(double health) {
+
+        getBukkitPlayer().setHealth(health);
     }
 
     /**
@@ -405,5 +512,27 @@ public class PlayerUtil implements KitPvPPlayer {
     public void playSound(Sound sound, float volume, float pitch) {
 
         getBukkitPlayer().playSound(getLocation(), sound, volume, pitch);
+    }
+
+    /**
+     * 设置此玩家的无敌时间 (Tick)
+     *
+     * @param ticks 时间
+     */
+    @Override
+    public void setNoDamageTicks(int ticks) {
+
+        getBukkitPlayer().setNoDamageTicks(ticks);
+    }
+
+    /**
+     * 设置此玩家的矢量
+     *
+     * @param vector 矢量
+     */
+    @Override
+    public void setVector(Vector vector) {
+
+        getBukkitPlayer().setVelocity(vector);
     }
 }

@@ -2,6 +2,7 @@ package com.minecraft.moonlake.kitpvp.api.player;
 
 import com.minecraft.moonlake.kitpvp.api.occupa.Occupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
+import org.bukkit.util.Vector;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -50,6 +52,71 @@ public interface KitPvPPlayer {
      * @param occupa 职业对象
      */
     void setOccupa(Occupa occupa);
+
+    /**
+     * 获取此玩家的技能组合对象
+     *
+     * @return 技能组合对象
+     */
+    SkillCombo getSkillCombo();
+
+
+    /**
+     * 给此玩家发送消息
+     *
+     * @param msg 消息
+     */
+    void send(String msg);
+
+    /**
+     * 给此玩家发送消息
+     *
+     * @param msg 消息
+     */
+    void send(String[] msg);
+
+    /**
+     * 给此玩家发送语言文件指定 键 的值
+     *
+     * @param key 键
+     */
+    void l18n(String key);
+
+    /**
+     * 给此玩家发送语言文件指定 键 的值
+     *
+     * @param key 键
+     * @param args 参数
+     */
+    void l18n(String key, Object... args);
+
+    /**
+     * 获取此玩家的当前血量
+     *
+     * @return 血量
+     */
+    double getHealth();
+
+    /**
+     * 获取此玩家的最大生命
+     *
+     * @return 最大血量
+     */
+    double getMaxHealth();
+
+    /**
+     * 设置此玩家的最大生命
+     *
+     * @param maxHealth 最大生命
+     */
+    void setMaxHealth(double maxHealth);
+
+    /**
+     * 设置此玩家的当前生命
+     *
+     * @param health 当前生命
+     */
+    void setHealth(double health);
 
     /**
      * 获取此玩家的当前所在位置
@@ -255,4 +322,18 @@ public interface KitPvPPlayer {
      * @param pitch 音调
      */
     void playSound(Sound sound, float volume, float pitch);
+
+    /**
+     * 设置此玩家的无敌时间 (Tick)
+     *
+     * @param ticks 时间
+     */
+    void setNoDamageTicks(int ticks);
+
+    /**
+     * 设置此玩家的矢量
+     *
+     * @param vector 矢量
+     */
+    void setVector(Vector vector);
 }

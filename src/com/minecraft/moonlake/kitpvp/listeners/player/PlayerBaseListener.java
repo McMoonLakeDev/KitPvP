@@ -1,8 +1,10 @@
 package com.minecraft.moonlake.kitpvp.listeners.player;
 
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
+import com.minecraft.moonlake.kitpvp.api.occupa.type.Warrior;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
+import com.minecraft.moonlake.kitpvp.manager.OccupaManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -30,6 +32,8 @@ public class PlayerBaseListener implements Listener {
         if(!AccountManager.has(player.getName())) {
 
             KitPvPPlayer kitPvPPlayer = AccountManager.create(player.getName());
+
+            OccupaManager.initOccupaPlayer(kitPvPPlayer, new Warrior());
         }
     }
 

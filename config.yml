@@ -1,0 +1,38 @@
+###################################################
+# KitPvP 月色之湖大型多人在线角色扮演插件         #
+# 作者：Month_Light、Simon、Ni_xiaoqi、Ruiqi_666  #
+###################################################
+
+# 插件版本号
+version: A-1.0
+
+# 是否开启调试功能
+# 如遇到 Bug 可尝试反馈给作者进行修复
+Debug: false
+
+# 语言文件的前缀
+Prefix: '&3MoonLake &e>> &f'
+
+# 插件用到的语言文件
+# 默认文件为 zh_CN.lang 如有其他
+# 例如翻译个 en_US.lang 则只需要
+# 将此处修改为 en_US 即可 其他同
+Language: zh_CN
+
+# 数据库配置
+MySQL:
+
+  # 数据库的名称
+  Database: moonlake_kitpvp
+
+  # 数据库的地址
+  Host: 127.0.0.1
+
+  # 数据库的端口
+  Port: 3306
+
+  # 数据库的用户名
+  Username: root
+
+  # 数据库的密码
+  Password: moonlake

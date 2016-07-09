@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="MoonLakeKitPvP:jar">
+    <output-path>$USER_HOME$/Desktop/api</output-path>
+    <root id="archive" name="MoonLakeKitPvP.jar">
+      <element id="module-output" name="MoonLakeKitPvP" />
+      <element id="file-copy" path="$PROJECT_DIR$/README.md" />
+      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/LICENSE" />
+      <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
+      <element id="file-copy" path="$PROJECT_DIR$/zh_CN.lang" />
+    </root>
+  </artifact>
+</component>

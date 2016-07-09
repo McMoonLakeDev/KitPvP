@@ -1,0 +1,16 @@
+###############################
+# KitPvP 插件简体中文语言配置 #
+# By Month_Light              #
+###############################
+
+# 语言文件 zh_CN.lang
+
+# 语言文件版本
+# version A-1.0
+
+# 可在语言指定值的前面注明 # 则不要
+# 配置文件(config.yml)中的 Prefix
+
+# 玩家消息配置
+player.skill.cast.success=#{0} = {1} &f(╯‵□′)╯︵┻━┻
+player.skill.cast.have.coolDown=#{0} = {1} &f(&c处于 &b{2} &c冷却中&f)

@@ -60,7 +60,7 @@ public interface Skill {
     /**
      * 将此技能强制释放
      *
-     * @param kitPvPPlayer 释放者
+     * @param owner 释放者
      */
-    void cast(KitPvPPlayer kitPvPPlayer);
+    void cast(KitPvPPlayer owner);
 }

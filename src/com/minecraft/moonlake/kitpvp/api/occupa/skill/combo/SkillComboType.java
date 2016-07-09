@@ -22,7 +22,7 @@ public enum SkillComboType {
 
     static {
 
-        COMBOS = new SkillComboType[] { LEFT, RIGHT };
+        COMBOS = new SkillComboType[] { null, LEFT, RIGHT };
     }
 
     SkillComboType(int id, String type, String name) {
