@@ -59,9 +59,9 @@ public class SkillComboUtil implements SkillCombo {
 
                     long lastCastTime = skillCoolDown.get(id);
 
-                    if(System.currentTimeMillis() - lastCastTime < skill.getCoolDown()) {
+                    if(System.currentTimeMillis() - lastCastTime < skill.getCoolDown() * 1000) {
 
-                        kitPvPPlayer.sendMainChatPacket(l18n.$("player.skill.cast.have.coolDown", getCurrentComboString(), d$n(skill), getCoolDown(id)));
+                        kitPvPPlayer.sendMainChatPacket(l18n.$("player.skill.cast.have.coolDown", getCurrentComboString(), d$n(skill), getCoolDown(skill)));
                         return;
                     }
                 }
@@ -81,11 +81,11 @@ public class SkillComboUtil implements SkillCombo {
         return skill.getDisplayName() != null ? skill.getDisplayName() : skill.getName();
     }
 
-    private int getCoolDown(int id) {
+    private int getCoolDown(Skill skill) {
 
-        long lastCastTime = skillCoolDown.get(id);
+        long lastCastTime = skillCoolDown.get(skill.getCombo());
 
-        return (int)(System.currentTimeMillis() - lastCastTime) / 1000;
+        return skill.getCoolDown() - (int)(System.currentTimeMillis() - lastCastTime) / 1000;
     }
 
     /**
