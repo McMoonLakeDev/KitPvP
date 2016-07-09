@@ -1,0 +1,8 @@
+name: MoonLakeKitPvP
+main: com.minecraft.moonlake.kitpvp.KitPvPPlugin
+version: A-1.0
+author: Month_Light
+authors: [Month_Light]
+depend: [MoonLake, MoonLakeEconomy, WorldEdit]
+website: http://www.mcyszh.com
+description: 月色之湖职业战争核心插件
