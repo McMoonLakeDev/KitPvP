@@ -1,6 +1,8 @@
 package com.minecraft.moonlake.kitpvp.api.occupa;
 
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.Skill;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -39,6 +41,20 @@ public interface Occupa {
     double getMaxHealth();
 
     /**
+     * 获取此职业的武器攻击力
+     *
+     * @return 武器攻击力
+     */
+    double getWeaponDamage();
+
+    /**
+     * 获取此职业的武器类型
+     *
+     * @return 武器类型
+     */
+    Material getWeaponType();
+
+    /**
      * 获取此职业的武器
      *
      * @return 武器
@@ -51,4 +67,12 @@ public interface Occupa {
      * @return 护甲
      */
     ItemStack[] getArmors();
+
+    /**
+     * 检测此职业的第一次组合
+     *
+     * @param type 组合类型
+     * @return true 则通过 else 不通过
+     */
+    boolean checkComboFirst(SkillComboType type);
 }

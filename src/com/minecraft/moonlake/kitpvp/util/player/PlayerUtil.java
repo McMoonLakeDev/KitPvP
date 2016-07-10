@@ -6,6 +6,7 @@ import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.language.l18n;
+import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.util.skill.SkillComboUtil;
 import com.minecraft.moonlake.util.Util;
 import org.bukkit.Bukkit;
@@ -534,5 +535,29 @@ public class PlayerUtil implements KitPvPPlayer {
     public void setVector(Vector vector) {
 
         getBukkitPlayer().setVelocity(vector);
+    }
+
+    @Override
+    public void resetHealth() {
+
+        getBukkitPlayer().resetMaxHealth();
+    }
+
+    @Override
+    public void clearPotionEffect() {
+
+        EntityManager.clearPotionEffect(this);
+    }
+
+    /**
+     * 获取此玩家是否拥有指定权限
+     *
+     * @param permission 权限
+     * @return true 拥有此权限 else 没有
+     */
+    @Override
+    public boolean hasPermission(String permission) {
+
+        return getBukkitPlayer().hasPermission(permission);
     }
 }

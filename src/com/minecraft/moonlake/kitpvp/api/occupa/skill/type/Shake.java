@@ -101,7 +101,7 @@ public class Shake extends AbstractSkill {
 
                                         getMain().getFallingBlockListener().getFallingBlockList().add(fallingBlock);
 
-                                        for(LivingEntity entity : EntityManager.getEntityInRadius(fallingBlock.getLocation(), 4.5d, owner)) {
+                                        for(LivingEntity entity : EntityManager.getEntityInRadius(fallingBlock.getLocation(), 3.5d, owner)) {
 
                                             entity.damage(10d, owner.getBukkitPlayer());
                                             entity.setVelocity(new Vector(0d, 0.6d, 0d));

@@ -1,7 +1,11 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.type;
 
+import com.minecraft.moonlake.api.itemlib.ItemBuilder;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -22,7 +26,9 @@ public class Ranger extends AbstractOccupa {
     @Override
     public ItemStack getWeapon() {
 
-        return null;
+        return new ItemBuilder(getWeaponType(), 0, "&6枯叶灵弓")
+                .setUnbreakable(true)
+                .build();
     }
 
     /**
@@ -33,6 +39,24 @@ public class Ranger extends AbstractOccupa {
     @Override
     public ItemStack[] getArmors() {
 
-        return new ItemStack[0];
+        return new ItemStack[] {
+
+                new ItemBuilder(Material.LEATHER_BOOTS).setLeatherColor(Color.GREEN).setUnbreakable(true).build(),
+                new ItemBuilder(Material.LEATHER_LEGGINGS).setLeatherColor(Color.GREEN).setUnbreakable(true).build(),
+                new ItemBuilder(Material.LEATHER_CHESTPLATE).setLeatherColor(Color.GREEN).setUnbreakable(true).build(),
+                new ItemBuilder(Material.LEATHER_HELMET).setLeatherColor(Color.GREEN).setUnbreakable(true).build(),
+        };
+    }
+
+    /**
+     * 检测此职业的第一次组合
+     *
+     * @param type 组合类型
+     * @return true 则通过 else 不通过
+     */
+    @Override
+    public boolean checkComboFirst(SkillComboType type) {
+
+        return type != SkillComboType.RIGHT;
     }
 }

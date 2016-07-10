@@ -1,6 +1,9 @@
 package com.minecraft.moonlake.kitpvp.api.occupa;
 
+import com.minecraft.moonlake.kitpvp.KitPvPPlugin;
 import com.minecraft.moonlake.kitpvp.api.occupa.type.*;
+import com.minecraft.moonlake.reflect.Reflect;
+import org.bukkit.Material;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,39 +16,32 @@ public enum OccupaType {
     /**
      * 职业类型: 未知
      */
-    UNKNOW("Unknow", "未知", null),
+    UNKNOW("Unknow", "未知", null, null),
     /**
      * 职业类型: 剑客
      */
-    WARRIOR("Warrior", "剑客", Warrior.class),
+    WARRIOR("Warrior", "剑客", Material.DIAMOND_SWORD, Warrior.class),
     /**
      * 职业类型: 刺客
      */
-    ASSASSIN("Assassin", "刺客", Assassin.class),
+    ASSASSIN("Assassin", "刺客", Material.SHEARS, Assassin.class),
     /**
      * 职业类型: 魔法师
      */
-    MAGICIAN("Magician", "魔法师", Magician.class),
+    MAGICIAN("Magician", "魔法师", Material.BLAZE_ROD, Magician.class),
     /**
      * 职业类型: 游侠
      */
-    RANGER("Ranger", "游侠", Ranger.class),
+    RANGER("Ranger", "游侠", Material.BOW, Ranger.class),
     /**
      * 职业类型: 坦克
      */
-    TANK("Tank", "坦克", Tank.class),
-    /**
-     * 职业类型: 牧师
-     */
-    PASTOR("Pastor", "牧师", Pastor.class),
-    /**
-     * 职业类型: 机枪手
-     */
-    GUNNER("Gunner", "机枪手", Gunner.class),
+    TANK("Tank", "坦克", Material.CLAY_BRICK, Tank.class),
     ;
 
     private String type;
     private String name;
+    private Material weapon;
     private Class<? extends Occupa> clazz;
     private final static Map<String, OccupaType> TYPE_MAP;
     private final static Map<String, OccupaType> NAME_MAP;
@@ -62,10 +58,11 @@ public enum OccupaType {
         }
     }
 
-    OccupaType(String type, String name, Class<? extends Occupa> clazz) {
+    OccupaType(String type, String name, Material weapon, Class<? extends Occupa> clazz) {
 
         this.type = type;
         this.name = name;
+        this.weapon = weapon;
         this.clazz = clazz;
     }
 
@@ -79,9 +76,34 @@ public enum OccupaType {
         return name;
     }
 
+    public Material getWeapon() {
+
+        return weapon;
+    }
+
     public Class<? extends Occupa> getClazz() {
 
         return clazz;
+    }
+
+    public <T extends Occupa> T newInstance(Object... argsObject) {
+
+        T t = null;
+
+        try {
+
+            t = (T) Reflect.instantiateObject(getClazz(), argsObject);
+        }
+        catch (Exception e) {
+
+            KitPvPPlugin.getInstances().log("获取职业类实例对象时异常: " + e.getMessage());
+
+            if(KitPvPPlugin.getInstances().isDebug()) {
+
+                e.printStackTrace();
+            }
+        }
+        return t;
     }
 
     public static OccupaType fromType(String type) {

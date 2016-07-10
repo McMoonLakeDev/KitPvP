@@ -1,7 +1,10 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.type;
 
+import com.minecraft.moonlake.api.itemlib.ItemBuilder;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -22,7 +25,9 @@ public class Magician extends AbstractOccupa {
     @Override
     public ItemStack getWeapon() {
 
-        return null;
+        return new ItemBuilder(getWeaponType(), 0, "&a炎之魔杖")
+                .setUnbreakable(true)
+                .build();
     }
 
     /**
@@ -33,6 +38,24 @@ public class Magician extends AbstractOccupa {
     @Override
     public ItemStack[] getArmors() {
 
-        return new ItemStack[0];
+        return new ItemStack[] {
+
+                new ItemBuilder(Material.GOLD_BOOTS).setUnbreakable(true).build(),
+                new ItemBuilder(Material.GOLD_LEGGINGS).setUnbreakable(true).build(),
+                new ItemBuilder(Material.IRON_CHESTPLATE).setUnbreakable(true).build(),
+                new ItemBuilder(Material.GOLD_HELMET).setUnbreakable(true).build(),
+        };
+    }
+
+    /**
+     * 检测此职业的第一次组合
+     *
+     * @param type 组合类型
+     * @return true 则通过 else 不通过
+     */
+    @Override
+    public boolean checkComboFirst(SkillComboType type) {
+
+        return type != SkillComboType.RIGHT;
     }
 }

@@ -1,8 +1,12 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.type;
 
 import com.minecraft.moonlake.api.itemlib.ItemBuilder;
+import com.minecraft.moonlake.api.itemlib.Itemlib;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.GhostFlashBurst;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.Hasaki;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.Shake;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -17,6 +21,19 @@ public class Warrior extends AbstractOccupa {
         super(OccupaType.WARRIOR);
 
         addSkill(new Shake());
+        addSkill(new Hasaki());
+        addSkill(new GhostFlashBurst());
+    }
+
+    /**
+     * 获取此职业的武器攻击力
+     *
+     * @return 武器攻击力
+     */
+    @Override
+    public double getWeaponDamage() {
+
+        return 6.5d;
     }
 
     /**
@@ -27,10 +44,11 @@ public class Warrior extends AbstractOccupa {
     @Override
     public ItemStack getWeapon() {
 
-        ItemStack item = getMain().getMoonLake().getItemlib().create(Material.IRON_SWORD, 0, 1, "&a碧水剑");
-        item = unbreakable(item);
-
-        return item;
+        return new ItemBuilder(getWeaponType(), 0, "&a碧水剑")
+                .setAttackDamage(getWeaponDamage(), false, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setAttackSpeed(-3.0d, false, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setUnbreakable(true)
+                .build();
     }
 
     /**
@@ -43,10 +61,22 @@ public class Warrior extends AbstractOccupa {
 
         return new ItemStack[] {
 
-                unbreakable(new ItemBuilder(Material.DIAMOND_BOOTS, 0).build()),
-                unbreakable(new ItemBuilder(Material.IRON_LEGGINGS, 0).build()),
-                unbreakable(new ItemBuilder(Material.IRON_CHESTPLATE, 0).build()),
-                null
+                new ItemBuilder(Material.DIAMOND_BOOTS).setUnbreakable(true).build(),
+                new ItemBuilder(Material.IRON_LEGGINGS).setUnbreakable(true).build(),
+                new ItemBuilder(Material.IRON_CHESTPLATE).setUnbreakable(true).build(),
+                new ItemBuilder(Material.LEATHER_HELMET).setUnbreakable(true).build(),
         };
+    }
+
+    /**
+     * 检测此职业的第一次组合
+     *
+     * @param type 组合类型
+     * @return true 则通过 else 不通过
+     */
+    @Override
+    public boolean checkComboFirst(SkillComboType type) {
+
+        return type != SkillComboType.LEFT;
     }
 }

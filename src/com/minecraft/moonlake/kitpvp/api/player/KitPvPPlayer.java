@@ -336,4 +336,22 @@ public interface KitPvPPlayer {
      * @param vector 矢量
      */
     void setVector(Vector vector);
+
+    /**
+     * 重置此玩家的血量
+     */
+    void resetHealth();
+
+    /**
+     * 清除此玩家的所有药水效果
+     */
+    void clearPotionEffect();
+
+    /**
+     * 获取此玩家是否拥有指定权限
+     *
+     * @param permission 权限
+     * @return true 拥有此权限 else 没有
+     */
+    boolean hasPermission(String permission);
 }

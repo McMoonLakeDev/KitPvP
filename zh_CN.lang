@@ -11,6 +11,22 @@
 # 可在语言指定值的前面注明 # 则不要
 # 配置文件(config.yml)中的 Prefix
 
+# 命令消息配置
+command.help=未知命令参数请使用 /kitpvp help 查看.
+command.console.notRun=控制台不能使用此命令.
+command.permission.notHave=你没有使用这个命令的权限.
+command.player.exception=错误,玩家数据对象异常无法获取.
+command.target.notOnline=错误,目标玩家 {0} 没有在线.
+
+command.kitPvP.help=#月色之湖职业战争命令管理
+command.kitPvP.help.occupa=#设置自己或指定玩家的当前职业
+command.kitPvP.help.setLobby=#设置当前位置为职业战争大厅.
+command.kitPvP.occupa=成功将玩家 {0} 的职业设置为 {1} 类型.
+command.kitPvP.occupa.notType=错误,该职业类型 {0} 没有存在.
+
 # 玩家消息配置
 player.skill.cast.success=#{0} = {1} &f(╯‵□′)╯︵┻━┻
 player.skill.cast.have.coolDown=#{0} = {1} &f(&c处于 &b{2} &c冷却中&f)
+
+# 前置消息配置
+worldEdit.selection.none=区域错误,请先用创世神选择好矩形区域.

@@ -6,3 +6,7 @@ authors: [Month_Light]
 depend: [MoonLake, MoonLakeEconomy, WorldEdit]
 website: http://www.mcyszh.com
 description: 月色之湖职业战争核心插件
+commands:
+  kitpvp:
+    description: 月色之湖职业战争命令管理
+    usage: /<command> help

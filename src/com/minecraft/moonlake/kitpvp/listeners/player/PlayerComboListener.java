@@ -4,6 +4,7 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -29,16 +30,28 @@ public class PlayerComboListener implements Listener {
 
         if(kitPvPPlayer == null) return;
         if(kitPvPPlayer.getOccupa() == null) return;
-
-        event.setCancelled(true);
+        if(event.getItem() == null) return;
+        if(event.getItem().getType() == Material.AIR) return;
+        if(kitPvPPlayer.getOccupa().getWeaponType() != event.getItem().getType()) return;
 
         if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 
+            if(kitPvPPlayer.getSkillCombo().getComboIndex() == 0 &&
+                    !kitPvPPlayer.getOccupa().checkComboFirst(SkillComboType.LEFT)) {
+
+                return;
+            }
             kitPvPPlayer.getSkillCombo().applyClick(SkillComboType.LEFT);
         }
         else if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
 
+            if(kitPvPPlayer.getSkillCombo().getComboIndex() == 0 &&
+                    !kitPvPPlayer.getOccupa().checkComboFirst(SkillComboType.RIGHT)) {
+
+                return;
+            }
             kitPvPPlayer.getSkillCombo().applyClick(SkillComboType.RIGHT);
         }
+        event.setCancelled(true);
     }
 }

@@ -3,6 +3,8 @@ package com.minecraft.moonlake.kitpvp.api.occupa;
 import com.minecraft.moonlake.kitpvp.KitPvPPlugin;
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.Skill;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -30,17 +32,6 @@ public abstract class AbstractOccupa implements Occupa {
     protected final KitPvP getMain() {
 
         return KitPvPPlugin.getInstances();
-    }
-
-    /**
-     * 将指定物品栈对象设置为无法破坏
-     *
-     * @param item 物品栈
-     * @return 物品栈对象
-     */
-    protected final ItemStack unbreakable(ItemStack item) {
-
-        return getMain().getMoonLake().getItemlib().setUnbreakable(item, true);
     }
 
     /**
@@ -87,6 +78,27 @@ public abstract class AbstractOccupa implements Occupa {
     }
 
     /**
+     * 获取此职业的武器攻击力
+     *
+     * @return 武器攻击力
+     */
+    public double getWeaponDamage() {
+
+        return 1d;
+    }
+
+    /**
+     * 获取此职业的武器类型
+     *
+     * @return 武器类型
+     */
+    @Override
+    public final Material getWeaponType() {
+
+        return type.getWeapon();
+    }
+
+    /**
      * 获取此职业的武器
      *
      * @return 武器
@@ -99,4 +111,12 @@ public abstract class AbstractOccupa implements Occupa {
      * @return 护甲
      */
     public abstract ItemStack[] getArmors();
+
+    /**
+     * 检测此职业的第一次组合
+     *
+     * @param type 组合类型
+     * @return true 则通过 else 不通过
+     */
+    public abstract boolean checkComboFirst(SkillComboType type);
 }

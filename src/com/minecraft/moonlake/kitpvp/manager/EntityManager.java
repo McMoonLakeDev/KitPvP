@@ -5,6 +5,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -154,5 +155,37 @@ public final class EntityManager extends KitPvPManager {
             }
         }
         return entityList;
+    }
+
+    /**
+     * 清除指定玩家的所有药水效果
+     *
+     * @param KitPvPPlayer 玩家
+     */
+    public static void clearPotionEffect(KitPvPPlayer kitPvPPlayer) {
+
+        if(kitPvPPlayer != null) {
+
+            clearPotionEffect(kitPvPPlayer.getBukkitPlayer());
+        }
+    }
+
+    /**
+     * 清除指定实体的所有药水效果
+     *
+     * @param entity 实体
+     */
+    public static void clearPotionEffect(LivingEntity entity) {
+
+        if(entity != null && !entity.getActivePotionEffects().isEmpty()) {
+
+            for(PotionEffect potionEffect : entity.getActivePotionEffects()) {
+
+                if(potionEffect != null && entity.hasPotionEffect(potionEffect.getType())) {
+
+                    entity.removePotionEffect(potionEffect.getType());
+                }
+            }
+        }
     }
 }

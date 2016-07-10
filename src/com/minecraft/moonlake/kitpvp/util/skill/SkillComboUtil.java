@@ -62,6 +62,7 @@ public class SkillComboUtil implements SkillCombo {
                     if(System.currentTimeMillis() - lastCastTime < skill.getCoolDown() * 1000) {
 
                         kitPvPPlayer.sendMainChatPacket(l18n.$("player.skill.cast.have.coolDown", getCurrentComboString(), d$n(skill), getCoolDown(skill)));
+                        clearCombo();
                         return;
                     }
                 }
@@ -69,10 +70,9 @@ public class SkillComboUtil implements SkillCombo {
                 skillCoolDown.put(id, System.currentTimeMillis());
 
                 kitPvPPlayer.sendMainChatPacket(l18n.$("player.skill.cast.success", getCurrentComboString(), d$n(skill)));
-
-                // combo finish to break combo
-                clearCombo();
             }
+            // combo finish to break combo
+            clearCombo();
         }
     }
 
@@ -159,6 +159,15 @@ public class SkillComboUtil implements SkillCombo {
                 skillMap.put(skill.getCombo(), skill);
             }
         }
+    }
+
+    /**
+     * 清除此技能组合对象的技能集合
+     */
+    @Override
+    public void clearSkill() {
+
+        skillMap.clear();
     }
 
     /**

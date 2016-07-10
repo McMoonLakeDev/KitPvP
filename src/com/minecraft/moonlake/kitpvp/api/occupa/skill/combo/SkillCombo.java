@@ -48,4 +48,9 @@ public interface SkillCombo {
      * @param skillList 技能集合
      */
     void setSkill(List<Skill> skillList);
+
+    /**
+     * 清除此技能组合对象的技能集合
+     */
+    void clearSkill();
 }

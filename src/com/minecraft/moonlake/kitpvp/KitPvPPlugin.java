@@ -8,6 +8,7 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.account.PlayerAccount;
 import com.minecraft.moonlake.kitpvp.api.config.KitPvPConfig;
 import com.minecraft.moonlake.kitpvp.api.language.KitPvPLanguage;
+import com.minecraft.moonlake.kitpvp.commands.Commandkitpvp;
 import com.minecraft.moonlake.kitpvp.config.KitPvPConfigUtil;
 import com.minecraft.moonlake.kitpvp.language.KitPvPLanguageUtil;
 import com.minecraft.moonlake.kitpvp.listeners.block.FallingBlockListener;
@@ -75,6 +76,8 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
         kitPvPLanguage.loadKitPvPLanguage();
 
         playerAccount = new AccountUtil(getInstance());
+
+        getCommand("kitpvp").setExecutor(new Commandkitpvp(getInstance()));
 
         fallingBlockListener = new FallingBlockListener(getInstance());
 

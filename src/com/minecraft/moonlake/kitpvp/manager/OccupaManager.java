@@ -28,11 +28,16 @@ public final class OccupaManager extends KitPvPManager {
 
         if(kitPvPPlayer != null && occupa != null) {
 
+            kitPvPPlayer.resetHealth();
+            kitPvPPlayer.clearPotionEffect();
+            kitPvPPlayer.getInventory().clear();
+
             kitPvPPlayer.setOccupa(occupa);
             kitPvPPlayer.setMaxHealth(occupa.getMaxHealth());
             kitPvPPlayer.setHealth(kitPvPPlayer.getMaxHealth());
             kitPvPPlayer.setItemInMainHand(occupa.getWeapon());
             kitPvPPlayer.getInventory().setArmorContents(occupa.getArmors());
+            kitPvPPlayer.getSkillCombo().clearSkill();
             kitPvPPlayer.getSkillCombo().setSkill(occupa.getSkillList());
         }
     }
