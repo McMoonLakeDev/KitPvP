@@ -56,7 +56,7 @@ public class Assassin extends AbstractOccupa {
                 new ItemBuilder(Material.LEATHER_BOOTS).setUnbreakable(true).build(),
                 new ItemBuilder(Material.LEATHER_LEGGINGS).setUnbreakable(true).build(),
                 new ItemBuilder(Material.CHAINMAIL_CHESTPLATE).setUnbreakable(true).build(),
-                new ItemBuilder(Material.LEATHER_HELMET).build(),
+                new ItemBuilder(Material.LEATHER_HELMET).setUnbreakable(true).build(),
         };
     }
 

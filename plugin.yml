@@ -1,6 +1,6 @@
 name: MoonLakeKitPvP
 main: com.minecraft.moonlake.kitpvp.KitPvPPlugin
-version: A-1.0
+version: A-1.2.5
 author: Month_Light
 authors: [Month_Light]
 depend: [MoonLake, MoonLakeEconomy, WorldEdit]

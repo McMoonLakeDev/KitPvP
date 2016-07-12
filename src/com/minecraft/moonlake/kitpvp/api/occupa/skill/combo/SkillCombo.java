@@ -53,4 +53,9 @@ public interface SkillCombo {
      * 清除此技能组合对象的技能集合
      */
     void clearSkill();
+
+    /**
+     * 重置技能组合对象类的冷却时间
+     */
+    void resetCoolDown();
 }

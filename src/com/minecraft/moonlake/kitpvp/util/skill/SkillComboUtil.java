@@ -171,6 +171,15 @@ public class SkillComboUtil implements SkillCombo {
     }
 
     /**
+     * 重置技能组合对象类的冷却时间
+     */
+    @Override
+    public void resetCoolDown() {
+
+        skillCoolDown.clear();
+    }
+
+    /**
      * 检测组合是否应该破坏
      */
     private void checkExpired() {

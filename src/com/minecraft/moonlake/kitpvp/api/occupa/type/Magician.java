@@ -1,9 +1,12 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.type;
 
 import com.minecraft.moonlake.api.itemlib.ItemBuilder;
+import com.minecraft.moonlake.api.itemlib.Itemlib;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.FlameDragonBreath;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.ThunderDragonForce;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -15,6 +18,19 @@ public class Magician extends AbstractOccupa {
     public Magician() {
 
         super(OccupaType.MAGICIAN);
+
+        addSkill(new FlameDragonBreath());
+        addSkill(new ThunderDragonForce());
+    }
+
+    /**
+     * 获取此职业的武器攻击力
+     *
+     * @return 武器攻击力
+     */
+    public double getWeaponDamage() {
+
+        return 4d;
     }
 
     /**
@@ -26,6 +42,7 @@ public class Magician extends AbstractOccupa {
     public ItemStack getWeapon() {
 
         return new ItemBuilder(getWeaponType(), 0, "&a炎之魔杖")
+                .setAttackDamage(getWeaponDamage(), false, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setUnbreakable(true)
                 .build();
     }
@@ -56,6 +73,6 @@ public class Magician extends AbstractOccupa {
     @Override
     public boolean checkComboFirst(SkillComboType type) {
 
-        return type != SkillComboType.RIGHT;
+        return type != SkillComboType.LEFT;
     }
 }

@@ -4,6 +4,7 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
+import com.minecraft.moonlake.kitpvp.manager.DataManager;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -33,6 +34,7 @@ public class PlayerComboListener implements Listener {
         if(event.getItem() == null) return;
         if(event.getItem().getType() == Material.AIR) return;
         if(kitPvPPlayer.getOccupa().getWeaponType() != event.getItem().getType()) return;
+        if(DataManager.contains(kitPvPPlayer.getLocation())) return;
 
         if(event.getAction() == Action.LEFT_CLICK_AIR || event.getAction() == Action.LEFT_CLICK_BLOCK) {
 

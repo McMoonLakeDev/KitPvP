@@ -8,6 +8,9 @@
     </JAVADOC>
     <SOURCES>
       <root url="jar://$USER_HOME$/Desktop/api/spigot/Spigot-1.10.2-R0.1.jar!/" />
+      <root url="file://D:/BuildTools/Spigot/Spigot-API/src/main/java" />
+      <root url="file://D:/BuildTools/Spigot/Spigot-API/src/main/javadoc" />
+      <root url="file://D:/BuildTools/Spigot/Spigot-API/src/test/java" />
     </SOURCES>
   </library>
 </component>

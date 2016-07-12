@@ -2,23 +2,29 @@ package com.minecraft.moonlake.kitpvp.util.player;
 
 import com.minecraft.moonlake.api.nms.packet.PacketPlayOutChat;
 import com.minecraft.moonlake.kitpvp.api.occupa.Occupa;
+import com.minecraft.moonlake.kitpvp.api.occupa.OccupaGUI;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import com.minecraft.moonlake.kitpvp.api.player.scoreboard.KitPvPScoreboard;
 import com.minecraft.moonlake.kitpvp.language.l18n;
+import com.minecraft.moonlake.kitpvp.manager.AccountManager;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
+import com.minecraft.moonlake.kitpvp.scoreboard.KitPvPScoreboardUtil;
 import com.minecraft.moonlake.kitpvp.util.skill.SkillComboUtil;
 import com.minecraft.moonlake.util.Util;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Sound;
-import org.bukkit.World;
+import org.bukkit.*;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
+
+import java.util.Arrays;
+import java.util.HashSet;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -28,15 +34,22 @@ public class PlayerUtil implements KitPvPPlayer {
     private final String name;
     private final Player player;
     private Occupa occupa;
+    private OccupaGUI occupaGUI;
     private OccupaType occupaType;
     private SkillCombo skillCombo;
+    private KitPvPScoreboard scoreboard;
+
+    private int kill;
+    private int death;
 
     public PlayerUtil(String name) {
 
         this.name = name;
         this.player = Bukkit.getServer().getPlayer(name);
 
+        this.occupaGUI = new OccupaGUI(this);
         this.skillCombo = new SkillComboUtil(this, 3);
+        this.scoreboard = new KitPvPScoreboardUtil(this);
     }
 
     /**
@@ -73,6 +86,17 @@ public class PlayerUtil implements KitPvPPlayer {
     }
 
     /**
+     * 获取此玩家的职业 GUI 对象
+     *
+     * @return 职业 GUI 对象
+     */
+    @Override
+    public OccupaGUI getOccupaGUI() {
+
+        return occupaGUI;
+    }
+
+    /**
      * 获取此玩家的职业类型
      *
      * @return 职业类型
@@ -104,6 +128,78 @@ public class PlayerUtil implements KitPvPPlayer {
     public SkillCombo getSkillCombo() {
 
         return skillCombo;
+    }
+
+    /**
+     * 获取此玩家的职业战争计分板对象
+     *
+     * @return 计分板对象
+     */
+    @Override
+    public KitPvPScoreboard getScoreboard() {
+
+        return scoreboard;
+    }
+
+    /**
+     * 获取此玩家的击杀数
+     *
+     * @return 击杀数
+     */
+    @Override
+    public int getKill() {
+
+        return kill;
+    }
+
+    /**
+     * 设置此玩家的击杀数
+     *
+     * @param newKill 新的击杀数
+     */
+    @Override
+    public void setKill(int newKill) {
+
+        this.kill = newKill;
+    }
+
+    /**
+     * 获取此玩家的死亡数
+     *
+     * @return 死亡数
+     */
+    @Override
+    public int getDeath() {
+
+        return death;
+    }
+
+    /**
+     * 设置此玩家的死亡数
+     *
+     * @param newDeath 新的死亡数
+     */
+    @Override
+    public void setDeath(int newDeath) {
+
+        this.death = newDeath;
+    }
+
+    /**
+     * 获取此玩家的 KD 比值
+     *
+     * @return KD 比值
+     */
+    @Override
+    public double getKD() {
+
+        if(kill > 0 && death > 0) {
+
+            double kd = (double)kill / (double)death;
+
+            return Util.rounding(kd, 2);
+        }
+        return 0.0d;
     }
 
     /**
@@ -559,5 +655,49 @@ public class PlayerUtil implements KitPvPPlayer {
     public boolean hasPermission(String permission) {
 
         return getBukkitPlayer().hasPermission(permission);
+    }
+
+    /**
+     * 获取此玩家的最后受伤原因
+     *
+     * @return 受伤原因
+     */
+    @Override
+    public EntityDamageEvent getLastDamageCause() {
+
+        return getBukkitPlayer().getLastDamageCause();
+    }
+
+    /**
+     * 获取此玩家的击杀者玩家对象
+     *
+     * @return 击杀者玩家对象 没有则返回 null
+     */
+    @Override
+    public KitPvPPlayer getKiller() {
+
+        return getBukkitPlayer().getKiller() != null ? AccountManager.get(getBukkitPlayer().getName()) : null;
+    }
+
+    /**
+     * 获取此玩家的眼部位置
+     *
+     * @return 眼部位置
+     */
+    @Override
+    public Location getEyeLocation() {
+
+        return getBukkitPlayer().getEyeLocation();
+    }
+
+    /**
+     * 获取此玩家准星的目标方块
+     *
+     * @param distance 距离
+     * @return 准星的方块 没有则返回 null
+     */
+    public Block getTargetBlock(int distance) {
+
+        return getBukkitPlayer().getTargetBlock(new HashSet<Material>(Arrays.asList(Material.AIR)), distance);
     }
 }

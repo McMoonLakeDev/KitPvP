@@ -35,9 +35,10 @@ public final class OccupaManager extends KitPvPManager {
             kitPvPPlayer.setOccupa(occupa);
             kitPvPPlayer.setMaxHealth(occupa.getMaxHealth());
             kitPvPPlayer.setHealth(kitPvPPlayer.getMaxHealth());
-            kitPvPPlayer.setItemInMainHand(occupa.getWeapon());
+            kitPvPPlayer.getInventory().setItem(0, occupa.getWeapon());
             kitPvPPlayer.getInventory().setArmorContents(occupa.getArmors());
             kitPvPPlayer.getSkillCombo().clearSkill();
+            kitPvPPlayer.getSkillCombo().resetCoolDown();
             kitPvPPlayer.getSkillCombo().setSkill(occupa.getSkillList());
         }
     }

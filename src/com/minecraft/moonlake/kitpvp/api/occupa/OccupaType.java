@@ -2,6 +2,7 @@ package com.minecraft.moonlake.kitpvp.api.occupa;
 
 import com.minecraft.moonlake.kitpvp.KitPvPPlugin;
 import com.minecraft.moonlake.kitpvp.api.occupa.type.*;
+import com.minecraft.moonlake.kitpvp.questbuy.BuyType;
 import com.minecraft.moonlake.reflect.Reflect;
 import org.bukkit.Material;
 
@@ -14,35 +15,33 @@ import java.util.Map;
 public enum OccupaType {
 
     /**
-     * 职业类型: 未知
-     */
-    UNKNOW("Unknow", "未知", null, null),
-    /**
      * 职业类型: 剑客
      */
-    WARRIOR("Warrior", "剑客", Material.DIAMOND_SWORD, Warrior.class),
+    WARRIOR("Warrior", "剑客", null, Material.DIAMOND_SWORD, Warrior.class, OccupaInfo.WARRIOR),
     /**
      * 职业类型: 刺客
      */
-    ASSASSIN("Assassin", "刺客", Material.SHEARS, Assassin.class),
-    /**
-     * 职业类型: 魔法师
-     */
-    MAGICIAN("Magician", "魔法师", Material.BLAZE_ROD, Magician.class),
+    ASSASSIN("Assassin", "刺客", new BuyType(BuyType.Type.MONEY, 500), Material.SHEARS, Assassin.class, OccupaInfo.ASSASSIN),
     /**
      * 职业类型: 游侠
      */
-    RANGER("Ranger", "游侠", Material.BOW, Ranger.class),
+    RANGER("Ranger", "游侠", new BuyType(BuyType.Type.MONEY, 380), Material.BOW, Ranger.class, OccupaInfo.RANGER),
     /**
      * 职业类型: 坦克
      */
-    TANK("Tank", "坦克", Material.CLAY_BRICK, Tank.class),
+    TANK("Tank", "坦克", new BuyType(BuyType.Type.MONEY, 450), Material.CLAY_BRICK, Tank.class, OccupaInfo.TANK),
+    /**
+     * 职业类型: 魔法师
+     */
+    MAGICIAN("Magician", "魔法师", new BuyType(BuyType.Type.POINT, 1000), Material.BLAZE_ROD, Magician.class, OccupaInfo.MAGICIAN),
     ;
 
     private String type;
     private String name;
+    private BuyType buyType;
     private Material weapon;
     private Class<? extends Occupa> clazz;
+    private OccupaInfo info;
     private final static Map<String, OccupaType> TYPE_MAP;
     private final static Map<String, OccupaType> NAME_MAP;
 
@@ -58,12 +57,14 @@ public enum OccupaType {
         }
     }
 
-    OccupaType(String type, String name, Material weapon, Class<? extends Occupa> clazz) {
+    OccupaType(String type, String name, BuyType buyType, Material weapon, Class<? extends Occupa> clazz, OccupaInfo info) {
 
         this.type = type;
         this.name = name;
+        this.buyType = buyType;
         this.weapon = weapon;
         this.clazz = clazz;
+        this.info = info;
     }
 
     public String getType() {
@@ -76,6 +77,11 @@ public enum OccupaType {
         return name;
     }
 
+    public BuyType getBuyType() {
+
+        return buyType;
+    }
+
     public Material getWeapon() {
 
         return weapon;
@@ -84,6 +90,11 @@ public enum OccupaType {
     public Class<? extends Occupa> getClazz() {
 
         return clazz;
+    }
+
+    public OccupaInfo getInfo() {
+
+        return info;
     }
 
     public <T extends Occupa> T newInstance(Object... argsObject) {

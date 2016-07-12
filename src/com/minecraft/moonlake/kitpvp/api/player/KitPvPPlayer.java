@@ -1,14 +1,19 @@
 package com.minecraft.moonlake.kitpvp.api.player;
 
 import com.minecraft.moonlake.kitpvp.api.occupa.Occupa;
+import com.minecraft.moonlake.kitpvp.api.occupa.OccupaGUI;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
+import com.minecraft.moonlake.kitpvp.api.player.scoreboard.KitPvPScoreboard;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
@@ -16,7 +21,7 @@ import org.bukkit.util.Vector;
 /**
  * Created by MoonLake on 2016/7/9.
  */
-public interface KitPvPPlayer {
+public interface KitPvPPlayer extends InventoryHolder {
 
     /**
      * 获取此玩家的名称
@@ -40,6 +45,13 @@ public interface KitPvPPlayer {
     Occupa getOccupa();
 
     /**
+     * 获取此玩家的职业 GUI 对象
+     *
+     * @return 职业 GUI 对象
+     */
+    OccupaGUI getOccupaGUI();
+
+    /**
      * 获取此玩家的职业类型
      *
      * @return 职业类型
@@ -60,6 +72,47 @@ public interface KitPvPPlayer {
      */
     SkillCombo getSkillCombo();
 
+    /**
+     * 获取此玩家的职业战争计分板对象
+     *
+     * @return 计分板对象
+     */
+    KitPvPScoreboard getScoreboard();
+
+    /**
+     * 获取此玩家的击杀数
+     *
+     * @return 击杀数
+     */
+    int getKill();
+
+    /**
+     * 设置此玩家的击杀数
+     *
+     * @param newKill 新的击杀数
+     */
+    void setKill(int newKill);
+
+    /**
+     * 获取此玩家的死亡数
+     *
+     * @return 死亡数
+     */
+    int getDeath();
+
+    /**
+     * 设置此玩家的死亡数
+     *
+     * @param newDeath 新的死亡数
+     */
+    void setDeath(int newDeath);
+
+    /**
+     * 获取此玩家的 KD 比值
+     *
+     * @return KD 比值
+     */
+    double getKD();
 
     /**
      * 给此玩家发送消息
@@ -354,4 +407,33 @@ public interface KitPvPPlayer {
      * @return true 拥有此权限 else 没有
      */
     boolean hasPermission(String permission);
+
+    /**
+     * 获取此玩家的最后受伤原因
+     *
+     * @return 受伤原因
+     */
+    EntityDamageEvent getLastDamageCause();
+
+    /**
+     * 获取此玩家的击杀者玩家对象
+     *
+     * @return 击杀者玩家对象 没有则返回 null
+     */
+    KitPvPPlayer getKiller();
+
+    /**
+     * 获取此玩家的眼部位置
+     *
+     * @return 眼部位置
+     */
+    Location getEyeLocation();
+
+    /**
+     * 获取此玩家准星的目标方块
+     *
+     * @param distance 距离
+     * @return 准星的方块 没有则返回 null
+     */
+    Block getTargetBlock(int distance);
 }

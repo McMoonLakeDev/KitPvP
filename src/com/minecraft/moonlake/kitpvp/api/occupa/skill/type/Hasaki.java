@@ -22,7 +22,7 @@ public class Hasaki extends AbstractSkill {
         super("Hasaki");
 
         setDisplayName("旋风斩");
-        setCoolDown(45);
+        setCoolDown(50);
         setCombo(new SkillComboType[] { SkillComboType.RIGHT, SkillComboType.LEFT, SkillComboType.LEFT });
     }
 
@@ -45,7 +45,7 @@ public class Hasaki extends AbstractSkill {
 
                 t += 1d;
                 double x = direction.getX() * t;
-                double y = direction.getY() * t + 1.2d;
+                double y = direction.getY() * t + 1.3d;
                 double z = direction.getZ() * t;
 
                 location.add(x, y, z);
@@ -77,7 +77,7 @@ public class Hasaki extends AbstractSkill {
                 }
                 for(LivingEntity entity : EntityManager.getEntityInRadius(location, 1.6d, owner)) {
 
-                    entity.damage(10d, owner.getBukkitPlayer());
+                    EntityManager.realDamage(entity, owner, 10d);
                     entity.setVelocity(new Vector(0d, 0.75d, 0d));
                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 5f, 1f);
                 }

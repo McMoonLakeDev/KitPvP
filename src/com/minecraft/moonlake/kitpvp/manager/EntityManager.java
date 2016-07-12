@@ -1,21 +1,31 @@
 package com.minecraft.moonlake.kitpvp.manager;
 
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import org.bukkit.Color;
+import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.Firework;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by MoonLake on 2016/5/21.
  */
 public final class EntityManager extends KitPvPManager {
+
+    public final static Random RANDOM;
+
+    static {
+
+        RANDOM = new Random();
+    }
 
     /**
      * 获取指定位置的半径内的实体
@@ -186,6 +196,74 @@ public final class EntityManager extends KitPvPManager {
                     entity.removePotionEffect(potionEffect.getType());
                 }
             }
+        }
+    }
+
+    /**
+     * 在指定位置生成死亡烟花
+     *
+     * @param location 位置
+     */
+    public static void deathFireworks(Location location, int count) {
+
+        if(count < 0) {
+
+            count = 1;
+        }
+        for(int i = 0; i < count; i++) {
+
+            Firework firework = location.getWorld().spawn(location, Firework.class);
+            FireworkMeta fireworkMeta = firework.getFireworkMeta();
+            fireworkMeta.addEffect(FireworkEffect.builder().with(FireworkEffect.Type.BALL).withColor(getRandomColor()).build());
+            firework.setFireworkMeta(fireworkMeta);
+            firework.detonate();
+        }
+    }
+
+    /**
+     * 获取 Bukkit 的随机颜色对象
+     *
+     * @return 随机颜色
+     */
+    public static Color getRandomColor() {
+
+        return Color.fromBGR(RANDOM.nextInt(255), RANDOM.nextInt(255), RANDOM.nextInt(255));
+    }
+
+    /**
+     * 给予指定实体真实的伤害
+     *
+     * @param source 源实体
+     * @param damager 攻击者实体
+     * @param damage 真实伤害
+     */
+    public static void realDamage(LivingEntity source, KitPvPPlayer damager, double damage) {
+
+        realDamage(source, damager.getBukkitPlayer(), damage);
+    }
+
+    /**
+     * 给予指定实体真实的伤害
+     *
+     * @param source 源实体
+     * @param damager 攻击者实体
+     * @param damage 真实伤害
+     */
+    public static void realDamage(LivingEntity source, LivingEntity damager, double damage) {
+
+        if(source != null && !source.isDead() && damager != null && !damager.isDead() && damage > 0d) {
+
+            EntityDamageByEntityEvent edbee = new EntityDamageByEntityEvent(damager, source, EntityDamageEvent.DamageCause.CUSTOM, damage);
+
+            source.damage(0d, damager);
+            source.setLastDamageCause(edbee);
+
+            if(source.getHealth() <= damage) {
+
+                source.setHealth(0d);
+                return;
+            }
+            source.setHealth(source.getHealth() - damage);
         }
     }
 }

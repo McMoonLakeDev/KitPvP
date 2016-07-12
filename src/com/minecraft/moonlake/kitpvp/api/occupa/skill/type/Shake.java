@@ -22,7 +22,7 @@ public class Shake extends AbstractSkill {
 
         super("Shake");
 
-        setCoolDown(50);
+        setCoolDown(58);
         setDisplayName("山崩地裂");
         setCombo(new SkillComboType[] { SkillComboType.RIGHT, SkillComboType.LEFT, SkillComboType.RIGHT });
     }
@@ -103,7 +103,7 @@ public class Shake extends AbstractSkill {
 
                                         for(LivingEntity entity : EntityManager.getEntityInRadius(fallingBlock.getLocation(), 3.5d, owner)) {
 
-                                            entity.damage(10d, owner.getBukkitPlayer());
+                                            EntityManager.realDamage(entity, owner, 10d);
                                             entity.setVelocity(new Vector(0d, 0.6d, 0d));
                                         }
                                     }

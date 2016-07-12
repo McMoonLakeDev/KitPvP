@@ -11,10 +11,16 @@ import com.minecraft.moonlake.kitpvp.api.language.KitPvPLanguage;
 import com.minecraft.moonlake.kitpvp.commands.Commandkitpvp;
 import com.minecraft.moonlake.kitpvp.config.KitPvPConfigUtil;
 import com.minecraft.moonlake.kitpvp.language.KitPvPLanguageUtil;
+import com.minecraft.moonlake.kitpvp.listeners.block.BlockBaseListener;
 import com.minecraft.moonlake.kitpvp.listeners.block.FallingBlockListener;
+import com.minecraft.moonlake.kitpvp.listeners.entity.EntityBaseListener;
+import com.minecraft.moonlake.kitpvp.listeners.entity.EntityDeathListener;
+import com.minecraft.moonlake.kitpvp.listeners.gui.OccupaGUIListener;
 import com.minecraft.moonlake.kitpvp.listeners.player.PlayerBaseListener;
 import com.minecraft.moonlake.kitpvp.listeners.player.PlayerComboListener;
+import com.minecraft.moonlake.kitpvp.listeners.player.PlayerDeathListener;
 import com.minecraft.moonlake.kitpvp.manager.ConfigManager;
+import com.minecraft.moonlake.kitpvp.manager.DataManager;
 import com.minecraft.moonlake.kitpvp.util.AccountUtil;
 import com.minecraft.moonlake.util.Util;
 import com.sk89q.worldedit.bukkit.WorldEditPlugin;
@@ -77,13 +83,20 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
 
         playerAccount = new AccountUtil(getInstance());
 
+        DataManager.loadKitPvPLobbyData();
+
         getCommand("kitpvp").setExecutor(new Commandkitpvp(getInstance()));
 
         fallingBlockListener = new FallingBlockListener(getInstance());
 
         pluginManager.registerEvents(fallingBlockListener, this);
+        pluginManager.registerEvents(new BlockBaseListener(getInstance()), this);
+        pluginManager.registerEvents(new EntityBaseListener(getInstance()), this);
         pluginManager.registerEvents(new PlayerBaseListener(getInstance()), this);
         pluginManager.registerEvents(new PlayerComboListener(getInstance()), this);
+        pluginManager.registerEvents(new PlayerDeathListener(getInstance()), this);
+        pluginManager.registerEvents(new EntityDeathListener(getInstance()), this);
+        pluginManager.registerEvents(new OccupaGUIListener(getInstance()), this);
 
         this.log("月色之湖职业战争 KitPvP 插件 v" + getPluginVersion() + " 成功加载.");
     }
@@ -250,7 +263,7 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
     @Override
     public void log(String msg) {
 
-        this.console.sendMessage("[MoonLakeMMORPG] " + Util.color(msg));
+        this.console.sendMessage("[MoonLakeKitPvP] " + Util.color(msg));
     }
 
     /**

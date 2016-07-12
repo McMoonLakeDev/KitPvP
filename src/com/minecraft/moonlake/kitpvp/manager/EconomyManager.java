@@ -50,4 +50,37 @@ public final class EconomyManager extends KitPvPManager {
 
         getMain().getMoonLakeEconomy().takeMoney(name, money);
     }
+
+    /**
+     * 获取指定玩家的经济点券数据
+     *
+     * @param name 玩家名
+     * @return 点券数据
+     */
+    public static int getPoint(String name) {
+
+        return getMain().getMoonLakeEconomy().getPoint(name);
+    }
+
+    /**
+     * 将指定玩家的经济点券数据添加指定点券
+     *
+     * @param name 玩家名
+     * @param point 添加的点券
+     */
+    public static void addPoint(String name, int point) {
+
+        getMain().getMoonLakeEconomy().givePoint(name, point);
+    }
+
+    /**
+     * 将指定玩家的经济点券数据拿走指定点券
+     *
+     * @param name 玩家名
+     * @param point 拿走的点券
+     */
+    public static void takePoint(String name, int point) {
+
+        getMain().getMoonLakeEconomy().takePoint(name, point);
+    }
 }

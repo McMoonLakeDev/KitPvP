@@ -4,6 +4,7 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.occupa.type.Warrior;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
+import com.minecraft.moonlake.kitpvp.manager.DataManager;
 import com.minecraft.moonlake.kitpvp.manager.OccupaManager;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -32,8 +33,14 @@ public class PlayerBaseListener implements Listener {
         if(!AccountManager.has(player.getName())) {
 
             KitPvPPlayer kitPvPPlayer = AccountManager.create(player.getName());
+            kitPvPPlayer.getScoreboard().register();
+            kitPvPPlayer.getOccupaGUI().loadKitPvPOccupaData();
 
             OccupaManager.initOccupaPlayer(kitPvPPlayer, new Warrior());
+        }
+        if(DataManager.isSetLobbyPoint()) {
+
+            event.getPlayer().teleport(DataManager.getLobbyPoint());
         }
     }
 
@@ -44,7 +51,8 @@ public class PlayerBaseListener implements Listener {
 
         if(kitPvPPlayer != null) {
 
-            AccountManager.remove(kitPvPPlayer.getName());
+            kitPvPPlayer.getScoreboard().unregister();
         }
+        AccountManager.remove(event.getPlayer().getName());
     }
 }

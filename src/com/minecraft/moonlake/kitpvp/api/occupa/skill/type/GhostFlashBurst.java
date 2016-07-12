@@ -25,7 +25,7 @@ public class GhostFlashBurst extends AbstractSkill {
         super("GhostFlashBurst");
 
         setDisplayName("鬼影闪 · 爆");
-        setCoolDown(5);
+        setCoolDown(45);
         setCombo(new SkillComboType[] { SkillComboType.RIGHT, SkillComboType.RIGHT, SkillComboType.LEFT });
     }
 
@@ -94,7 +94,7 @@ public class GhostFlashBurst extends AbstractSkill {
 
                                 for(LivingEntity entity : flashEntityList) {
 
-                                    entity.damage(5d, owner.getBukkitPlayer());
+                                    EntityManager.realDamage(entity, owner, 5d);
                                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
                                     entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getLocation(), 1);
                                 }

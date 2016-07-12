@@ -8,6 +8,9 @@
       <element id="file-copy" path="$PROJECT_DIR$/LICENSE" />
       <element id="file-copy" path="$PROJECT_DIR$/config.yml" />
       <element id="file-copy" path="$PROJECT_DIR$/zh_CN.lang" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>

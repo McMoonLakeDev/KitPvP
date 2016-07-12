@@ -7,7 +7,6 @@ import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.GhostFlashBurst;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.Hasaki;
-import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.Shake;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -20,7 +19,6 @@ public class Warrior extends AbstractOccupa {
 
         super(OccupaType.WARRIOR);
 
-        addSkill(new Shake());
         addSkill(new Hasaki());
         addSkill(new GhostFlashBurst());
     }
@@ -47,6 +45,7 @@ public class Warrior extends AbstractOccupa {
         return new ItemBuilder(getWeaponType(), 0, "&a碧水剑")
                 .setAttackDamage(getWeaponDamage(), false, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setAttackSpeed(-3.0d, false, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setMoveSpeed(0.1, true, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setUnbreakable(true)
                 .build();
     }

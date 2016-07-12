@@ -5,6 +5,7 @@ import com.minecraft.moonlake.api.itemlib.Itemlib;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.Shake;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -16,6 +17,8 @@ public class Tank extends AbstractOccupa {
     public Tank() {
 
         super(OccupaType.TANK);
+
+        addSkill(new Shake());
     }
 
     /**

@@ -5,9 +5,12 @@ import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.language.l18n;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
+import com.minecraft.moonlake.kitpvp.manager.DataManager;
 import com.minecraft.moonlake.kitpvp.manager.OccupaManager;
 import com.minecraft.moonlake.kitpvp.manager.WorldEditManager;
 import com.sk89q.worldedit.bukkit.selections.Selection;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -58,9 +61,17 @@ public class Commandkitpvp implements CommandExecutor {
 
                     kitpvpHelp(kitPvPPlayer);
                 }
+                else if(args[0].equalsIgnoreCase("opengui")) {
+
+                    openGUI(kitPvPPlayer);
+                }
                 else if(args[0].equalsIgnoreCase("setlobby")) {
 
                     setLobby(kitPvPPlayer);
+                }
+                else if(args[0].equalsIgnoreCase("setlobbypoint")) {
+
+                    setLobbyPoint(kitPvPPlayer);
                 }
                 return true;
             }
@@ -89,7 +100,9 @@ public class Commandkitpvp implements CommandExecutor {
         String[] helps = {
 
                 "/kitpvp help - " + l18n.$("command.kitPvP.help"),
+                "/kitpvp opengui - " + l18n.$("command.kitPvP.help.openGUI"),
                 "/kitpvp setlobby - " + l18n.$("command.kitPvP.help.setLobby"),
+                "/kitpvp setlobbypoint - " + l18n.$("command.kitPvP.help.setLobbyPoint"),
                 "/kitpvp occupa <O> [T] - " + l18n.$("command.kitPvP.help.occupa"),
         };
         kitPvPPlayer.send(helps);
@@ -97,7 +110,45 @@ public class Commandkitpvp implements CommandExecutor {
 
     private void setLobby(KitPvPPlayer kitPvPPlayer) {
 
+        if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.setlobby")) {
+
+            kitPvPPlayer.l18n("command.permission.notHave");
+            return;
+        }
         Selection selection = WorldEditManager.getSelection(kitPvPPlayer);
+
+        if(selection == null) {
+
+            kitPvPPlayer.l18n("worldEdit.selection.none");
+            return;
+        }
+        DataManager.setKitPvPLobbyRegion(selection);
+
+        kitPvPPlayer.l18n("command.kitPvP.setLobby");
+    }
+
+    private void setLobbyPoint(KitPvPPlayer kitPvPPlayer) {
+
+        if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.setlobbypoint")) {
+
+            kitPvPPlayer.l18n("command.permission.notHave");
+            return;
+        }
+        if(!DataManager.isSetLobby()) {
+
+            kitPvPPlayer.l18n("command.kitPvP.setLobbyPoint.notSetLobby");
+            return;
+        }
+        Location location = kitPvPPlayer.getLocation();
+
+        if(!DataManager.contains(location)) {
+
+            kitPvPPlayer.l18n("command.kitPvP.setLobbyPoint.notLocation");
+            return;
+        }
+        DataManager.setKitPvPLobbyPoint(location);
+
+        kitPvPPlayer.l18n("command.kitPvP.setLobbyPoint");
     }
 
     private void occupa(KitPvPPlayer kitPvPPlayer, String type, String target) {
@@ -128,5 +179,16 @@ public class Commandkitpvp implements CommandExecutor {
         OccupaManager.initOccupaPlayer(kitPvPPlayer, occupaType.newInstance());
 
         kitPvPPlayer.l18n("command.kitPvP.occupa", kitPvPPlayer.getName(), occupaType.getType());
+    }
+
+    private void openGUI(KitPvPPlayer kitPvPPlayer) {
+
+        if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.opengui")) {
+
+            kitPvPPlayer.l18n("command.permission.notHave");
+            return;
+        }
+        kitPvPPlayer.getOccupaGUI().openGUI();
+        kitPvPPlayer.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 10f, 1f);
     }
 }
