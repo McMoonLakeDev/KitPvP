@@ -69,6 +69,13 @@ public interface Occupa {
     ItemStack[] getArmors();
 
     /**
+     * 获取此职业是否持盾
+     *
+     * @return true 则持盾 else 不持盾
+     */
+    boolean hasShield();
+
+    /**
      * 检测此职业的第一次组合
      *
      * @param type 组合类型

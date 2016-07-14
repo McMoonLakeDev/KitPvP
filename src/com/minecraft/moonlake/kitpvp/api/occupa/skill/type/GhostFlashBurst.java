@@ -1,10 +1,12 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.skill.type;
 
+import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -55,8 +57,6 @@ public class GhostFlashBurst extends AbstractSkill {
                 }
                 if(done) {
 
-                    owner.send("ghost flash burst done.");
-
                     cancel();
                 }
                 if(burst == null) {
@@ -69,10 +69,16 @@ public class GhostFlashBurst extends AbstractSkill {
 
                     for(LivingEntity entity : EntityManager.getEntityInRadius(location, 1.4d, owner)) {
 
-                        entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 5f, 1f);
-                        entity.getWorld().spawnParticle(Particle.SWEEP_ATTACK, entity.getLocation(), 1);
+                        EntityDamageBySkillEvent edbse = new EntityDamageBySkillEvent(entity, GhostFlashBurst.this, owner);
+                        Bukkit.getServer().getPluginManager().callEvent(edbse);
 
-                        flashEntityList.add(entity);
+                        if(!edbse.isCancelled() && !flashEntityList.contains(entity)) {
+
+                            entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 5f, 1f);
+                            entity.getWorld().spawnParticle(Particle.SWEEP_ATTACK, entity.getLocation(), 1);
+
+                            flashEntityList.add(entity);
+                        }
                     }
                     location.subtract(x, 0d, z);
 
@@ -94,7 +100,7 @@ public class GhostFlashBurst extends AbstractSkill {
 
                                 for(LivingEntity entity : flashEntityList) {
 
-                                    EntityManager.realDamage(entity, owner, 5d);
+                                    EntityManager.realDamage(entity, owner, 4d);
                                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
                                     entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getLocation(), 1);
                                 }

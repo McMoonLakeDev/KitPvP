@@ -2,6 +2,8 @@ package com.minecraft.moonlake.kitpvp.manager;
 
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 
+import java.util.Set;
+
 /**
  * Created by MoonLake on 2016/7/9.
  */
@@ -48,5 +50,15 @@ public final class AccountManager extends KitPvPManager {
     public static void remove(String name) {
 
         getMain().getAccount().remove(name);
+    }
+
+    /**
+     * 获取职业战争所有的在线玩家集合
+     *
+     * @return 玩家集合
+     */
+    public static Set<KitPvPPlayer> getOnlinePlayers() {
+
+        return getMain().getAccount().getOnlinePlayers();
     }
 }

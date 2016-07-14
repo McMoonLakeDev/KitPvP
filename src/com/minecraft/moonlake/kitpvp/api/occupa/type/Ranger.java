@@ -1,11 +1,14 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.type;
 
 import com.minecraft.moonlake.api.itemlib.ItemBuilder;
+import com.minecraft.moonlake.api.itemlib.Itemlib;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.WitheredLeafAnger;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 /**
@@ -16,6 +19,8 @@ public class Ranger extends AbstractOccupa {
     public Ranger() {
 
         super(OccupaType.RANGER);
+
+        addSkill(new WitheredLeafAnger());
     }
 
     /**
@@ -28,6 +33,9 @@ public class Ranger extends AbstractOccupa {
 
         return new ItemBuilder(getWeaponType(), 0, "&6枯叶灵弓")
                 .setUnbreakable(true)
+                .addEnchant(Enchantment.ARROW_INFINITE, 1)
+                .setMoveSpeed(-0.15, true, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setMoveSpeed(-0.15, true, Itemlib.AttributeType.Slot.OFF_HAND)
                 .build();
     }
 

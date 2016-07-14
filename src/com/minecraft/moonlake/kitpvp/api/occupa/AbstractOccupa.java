@@ -99,6 +99,16 @@ public abstract class AbstractOccupa implements Occupa {
     }
 
     /**
+     * 获取此职业是否持盾
+     *
+     * @return true 则持盾 else 不持盾
+     */
+    public boolean hasShield() {
+
+        return false;
+    }
+
+    /**
      * 获取此职业的武器
      *
      * @return 武器

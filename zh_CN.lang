@@ -6,7 +6,7 @@
 # 语言文件 zh_CN.lang
 
 # 语言文件版本
-# version A-1.2.5
+# version B-2.0
 
 # 可在语言指定值的前面注明 # 则不要
 # 配置文件(config.yml)中的 Prefix
@@ -23,12 +23,16 @@ command.kitPvP.help.occupa=#设置自己或指定玩家的当前职业
 command.kitPvP.help.openGUI=#打开自己的职业战争 GUI 面板.
 command.kitPvP.help.setLobby=#设置指定区域为职业战争大厅.
 command.kitPvP.help.setLobbyPoint=#设置当前位置为职业战争大厅传送点.
+command.kitpvp.help.setSpawnPoint=#设置职业战争的玩家随机重生传送点.
+command.kitpvp.help.setSpawnPoint.clear=#清除职业战争的玩家随机重生传送点.
 command.kitPvP.occupa=成功将玩家 {0} 的职业设置为 {1} 类型.
 command.kitPvP.occupa.notType=错误,该职业类型 {0} 没有存在.
 command.kitPvP.setLobby=成功将当前区域设置为职业战争大厅.
 command.kitPvP.setLobbyPoint=成功将当前位置设置为职业战争大厅传送点.
 command.kitPvP.setLobbyPoint.notSetLobby=错误,请先将职业战争大厅区域设置好.
 command.kitPvP.setLobbyPoint.notLocation=错误,您必须站在职业战争大厅区域来设置.
+command.kitPvP.setSpawnPoint=成功将当前位置设置为一个职业战争随机重生点.
+command.kitPvP.clearSpawnPoint=成功将职业战争的所有随机重生点清除.
 
 # 玩家消息配置
 player.skill.cast.success=#{0} = {1} &f(╯‵□′)╯︵┻━┻
@@ -41,6 +45,19 @@ player.questBuy.confirm=您花费 {0} 点{1}将 {2} 职业成功购买.
 player.questBuy.cancel=您已取消购买此职业: {0}
 player.questBuy.notHave=您没有足够的 {0} 来购买此职业.
 player.questBuy.guiFormat=#&f解锁需求: &2{0}{1}
+
+player.sign.create.permission.notHave=你没有创建职业战争的木牌权限.
+player.sign.create.occupa.notType=错误,该职业类型 {0} 没有存在.
+player.sign.create.occupa=成功创建职业战争职业 GUI 交互木牌.
+player.sign.use.permission.notHave=你没有使用职业战争的木牌权限.
+
+player.kitPvP.join.server=#玩家 {0} 成功加入到月色之湖职业战争.
+player.kitPvP.quit.server=#玩家 {0} 已退出月色之湖职业战争.
+player.kitPvP.join.battlefield=您以职业 {0} 成功加入到职业战争战场!!!
+player.kitPvP.rank.update=您的 Rank 等级成功升级到 {0} 恭喜!
+
+player.kill.player=您成功击杀玩家 {0} 获得 {1} 点金币奖励.
+player.kill.player.supply=您获得击杀玩家的补给物奖励.
 
 # 前置消息配置
 worldEdit.selection.none=区域错误,请先用创世神选择好矩形区域.

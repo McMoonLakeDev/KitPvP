@@ -1,6 +1,7 @@
 package com.minecraft.moonlake.kitpvp.manager;
 
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
@@ -257,6 +258,8 @@ public final class EntityManager extends KitPvPManager {
 
             source.damage(0d, damager);
             source.setLastDamageCause(edbee);
+
+            Bukkit.getServer().getPluginManager().callEvent(edbee);
 
             if(source.getHealth() <= damage) {
 

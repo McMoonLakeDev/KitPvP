@@ -6,6 +6,7 @@ import com.minecraft.moonlake.kitpvp.manager.AccountManager;
 import com.minecraft.moonlake.kitpvp.manager.DataManager;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.manager.OccupaManager;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -27,17 +28,22 @@ public class PlayerDeathListener implements Listener {
         this.main = main;
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onKiller(PlayerDeathEvent event) {
 
         KitPvPPlayer deather = AccountManager.get(event.getEntity().getName());
 
         if(deather.getKiller() != null) {
 
+            KitPvPPlayer killer = deather.getKiller();
+
+            killer.getScoreboard().updateKill(killer.getKill() + 1);
+            OccupaManager.onKillPlayer(killer, deather);
+            OccupaManager.supplyKitPvP(killer);
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onEntity(PlayerDeathEvent event) {
 
         KitPvPPlayer deather = AccountManager.get(event.getEntity().getName());
@@ -49,12 +55,21 @@ public class PlayerDeathListener implements Listener {
 
             if(killer != null && !(killer instanceof Player)) {
 
+                if(killer instanceof Arrow && ((Arrow)killer).getShooter() instanceof Player) {
 
+                    KitPvPPlayer killerPlayer = AccountManager.get(((Player)((Arrow)killer).getShooter()).getName());
+
+                    killerPlayer.getScoreboard().updateKill(killerPlayer.getKill() + 1);
+                    OccupaManager.onKillPlayer(killerPlayer, deather);
+                    OccupaManager.supplyKitPvP(killerPlayer);
+
+                    event.setDeathMessage("玩家 " + deather.getName() + " 被 " + killerPlayer.getName() + " 的箭射中了膝盖,倒地不起...");
+                }
             }
         }
     }
 
-    @EventHandler(priority = EventPriority.HIGH, ignoreCancelled = true)
+    @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(PlayerDeathEvent event) {
 
         KitPvPPlayer deather = AccountManager.get(event.getEntity().getName());
@@ -65,6 +80,8 @@ public class PlayerDeathListener implements Listener {
 
             EntityManager.deathFireworks(deather.getEyeLocation().subtract(0d, 0.2d, 0d), 3);
         }
+        event.setDroppedExp(0);
+        event.getDrops().clear();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -72,14 +89,12 @@ public class PlayerDeathListener implements Listener {
 
         KitPvPPlayer kitPvPPlayer = AccountManager.get(event.getPlayer().getName());
 
-        kitPvPPlayer.resetHealth();
-        kitPvPPlayer.getInventory().clear();
-        kitPvPPlayer.clearPotionEffect();
+        DataManager.resetKitPvPState(kitPvPPlayer);
 
         if(DataManager.isSetLobbyPoint()) {
 
             event.setRespawnLocation(DataManager.getLobbyPoint());
         }
-        OccupaManager.initOccupaPlayer(kitPvPPlayer);
+        //OccupaManager.initOccupaPlayer(kitPvPPlayer);
     }
 }

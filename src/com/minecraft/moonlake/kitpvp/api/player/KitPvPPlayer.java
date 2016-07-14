@@ -5,6 +5,7 @@ import com.minecraft.moonlake.kitpvp.api.occupa.OccupaGUI;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillCombo;
 import com.minecraft.moonlake.kitpvp.api.player.scoreboard.KitPvPScoreboard;
+import com.minecraft.moonlake.kitpvp.rank.KitPvPRank;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -113,6 +114,20 @@ public interface KitPvPPlayer extends InventoryHolder {
      * @return KD 比值
      */
     double getKD();
+
+    /**
+     * 获取此玩家的 Rank 等级
+     *
+     * @return Rank
+     */
+    KitPvPRank getRank();
+
+    /**
+     * 设置此玩家的 Rank 等级
+     *
+     * @param kitPvPRank Rank
+     */
+    void setRank(KitPvPRank kitPvPRank);
 
     /**
      * 给此玩家发送消息

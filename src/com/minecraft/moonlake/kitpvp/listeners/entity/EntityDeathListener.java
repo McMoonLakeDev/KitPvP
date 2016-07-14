@@ -1,13 +1,10 @@
 package com.minecraft.moonlake.kitpvp.listeners.entity;
 
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
-import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.AccountManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 /**
@@ -29,18 +26,7 @@ public class EntityDeathListener implements Listener {
 
         if(!(entity instanceof Player)) {
 
-            if(entity.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
 
-                EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)entity.getLastDamageCause();
-                Entity killerEntity = edbee.getDamager();
-
-                if(killerEntity != null && killerEntity instanceof Player) {
-
-                    KitPvPPlayer kitPvPPlayer = AccountManager.get(killerEntity.getName());
-
-                    kitPvPPlayer.getScoreboard().updateKill(kitPvPPlayer.getKill() + 1);
-                }
-            }
         }
     }
 }

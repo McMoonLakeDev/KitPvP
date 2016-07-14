@@ -1,10 +1,12 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.skill.type;
 
+import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
@@ -43,9 +45,7 @@ public class FlameDragonBreath extends AbstractSkill {
             @Override
             public void run() {
 
-                if(living >= 6 * 20) {
-
-                    owner.send("flame dragon breath done.");
+                if(living >= 3 * 20) {
 
                     cancel();
                 }
@@ -61,8 +61,14 @@ public class FlameDragonBreath extends AbstractSkill {
 
                 for(LivingEntity entity : EntityManager.getEntityInRadius(location, 1d, owner)) {
 
-                    entity.setFireTicks(10);
-                    entity.damage(1d, owner.getBukkitPlayer());
+                    EntityDamageBySkillEvent edbse = new EntityDamageBySkillEvent(entity, FlameDragonBreath.this, owner);
+                    Bukkit.getServer().getPluginManager().callEvent(edbse);
+
+                    if(!edbse.isCancelled()) {
+
+                        entity.setFireTicks(10);
+                        entity.damage(1d, owner.getBukkitPlayer());
+                    }
                 }
                 location.subtract(x, y, z);
 

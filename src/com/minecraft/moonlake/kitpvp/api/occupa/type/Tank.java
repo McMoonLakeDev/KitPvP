@@ -5,6 +5,7 @@ import com.minecraft.moonlake.api.itemlib.Itemlib;
 import com.minecraft.moonlake.kitpvp.api.occupa.AbstractOccupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
+import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.RKO;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.type.Shake;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -18,6 +19,7 @@ public class Tank extends AbstractOccupa {
 
         super(OccupaType.TANK);
 
+        addSkill(new RKO());
         addSkill(new Shake());
     }
 
@@ -54,6 +56,16 @@ public class Tank extends AbstractOccupa {
                 .setAttackSpeed(-3.2, false, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setUnbreakable(true)
                 .build();
+    }
+
+    /**
+     * 获取此职业是否持盾
+     *
+     * @return true 则持盾 else 不持盾
+     */
+    public boolean hasShield() {
+
+        return true;
     }
 
     /**

@@ -2,6 +2,8 @@ package com.minecraft.moonlake.kitpvp.scoreboard;
 
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.api.player.scoreboard.KitPvPScoreboard;
+import com.minecraft.moonlake.kitpvp.rank.KitPvPRank;
+import com.minecraft.moonlake.util.Util;
 import org.bukkit.Bukkit;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
@@ -30,20 +32,20 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
     @Override
     public void register() {
 
-        objective.setDisplayName("MoonLake 职业战争");
+        objective.setDisplayName(Util.color("&6MoonLake 职业战争"));
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         objective.getScore("    ").setScore(10);
-        objective.getScore("> Rank: null").setScore(9);
+        objective.getScore(Util.color("&b> &eRank: &b" + kitPvPPlayer.getRank().getRankName())).setScore(9);
         objective.getScore("   ").setScore(8);
-        objective.getScore("> 杀敌数: " + kitPvPPlayer.getKill()).setScore(7);
-        objective.getScore("> 死亡数: " + kitPvPPlayer.getDeath()).setScore(6);
+        objective.getScore(Util.color("&b> &e杀敌数: &a" + kitPvPPlayer.getKill())).setScore(7);
+        objective.getScore(Util.color("&b> &e死亡数: &c" + kitPvPPlayer.getDeath())).setScore(6);
         objective.getScore("  ").setScore(5);
-        objective.getScore("> K/D比: " + kitPvPPlayer.getKD()).setScore(4);
+        objective.getScore(Util.color("&b> &eK/D比: &d" + kitPvPPlayer.getKD())).setScore(4);
         objective.getScore(" ").setScore(3);
-        objective.getScore("官方Q群: 377607025").setScore(2);
+        objective.getScore(Util.color("&e官方Q群: 377607025")).setScore(2);
         objective.getScore("").setScore(1);
-        objective.getScore("   www.mcyszh.com").setScore(0);
+        objective.getScore(Util.color("   &ewww.mcyszh.com")).setScore(0);
 
         kitPvPPlayer.getBukkitPlayer().setScoreboard(scoreboard);
     }
@@ -66,8 +68,8 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
     @Override
     public void updateKill(int newKill) {
 
-        Score kill = objective.getScore("> 杀敌数: " + kitPvPPlayer.getKill());
-        Score newKillScore = objective.getScore("> 杀敌数: " + newKill);
+        Score kill = objective.getScore(Util.color("&b> &e杀敌数: &a" + kitPvPPlayer.getKill()));
+        Score newKillScore = objective.getScore(Util.color("&b> &e杀敌数: &a" + newKill));
         newKillScore.setScore(7);
 
         if(kill != null && !kill.getEntry().equalsIgnoreCase(newKillScore.getEntry())) {
@@ -79,6 +81,16 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
         kitPvPPlayer.setKill(newKill);
 
         updateKD(lastKD);
+
+        KitPvPRank updateRank = KitPvPRank.getPlayerRank(newKill);
+
+        if(kitPvPPlayer.getRank() != updateRank) {
+
+            updateRank(updateRank);
+
+            kitPvPPlayer.setRank(updateRank);
+            kitPvPPlayer.l18n("player.kitPvP.rank.update", updateRank.getRankName());
+        }
     }
 
     /**
@@ -89,8 +101,8 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
     @Override
     public void updateDeath(int newDeath) {
 
-        Score death = objective.getScore("> 死亡数: " + kitPvPPlayer.getDeath());
-        Score newDeathScore = objective.getScore("> 死亡数: " + newDeath);
+        Score death = objective.getScore(Util.color("&b> &e死亡数: &c" + kitPvPPlayer.getDeath()));
+        Score newDeathScore = objective.getScore(Util.color("&b> &e死亡数: &c" + newDeath));
         newDeathScore.setScore(6);
 
         if(death != null && !death.getEntry().equalsIgnoreCase(newDeathScore.getEntry())) {
@@ -106,14 +118,27 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
 
     private void updateKD(double lastKD) {
 
-        Score kd = objective.getScore("> K/D比: " + lastKD);
+        Score kd = objective.getScore(Util.color("&b> &eK/D比: &d" + lastKD));
 
-        Score newKd = objective.getScore("> K/D比: " + kitPvPPlayer.getKD());
+        Score newKd = objective.getScore(Util.color("&b> &eK/D比: &d" + kitPvPPlayer.getKD()));
         newKd.setScore(4);
 
         if(kd != null && !kd.getEntry().equalsIgnoreCase(newKd.getEntry())) {
 
             scoreboard.resetScores(kd.getEntry());
+        }
+    }
+
+    private void updateRank(KitPvPRank newRank) {
+
+        Score rank = objective.getScore(Util.color("&b> &eRank: &b" + kitPvPPlayer.getRank().getRankName()));
+
+        Score newRankScore = objective.getScore(Util.color("&b> &eRank: &b" + newRank.getRankName()));
+        newRankScore.setScore(9);
+
+        if(rank != null && !rank.getEntry().equalsIgnoreCase(newRankScore.getEntry())) {
+
+            scoreboard.resetScores(rank.getEntry());
         }
     }
 }

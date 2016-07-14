@@ -10,6 +10,7 @@ import com.minecraft.moonlake.kitpvp.api.player.scoreboard.KitPvPScoreboard;
 import com.minecraft.moonlake.kitpvp.language.l18n;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
+import com.minecraft.moonlake.kitpvp.rank.KitPvPRank;
 import com.minecraft.moonlake.kitpvp.scoreboard.KitPvPScoreboardUtil;
 import com.minecraft.moonlake.kitpvp.util.skill.SkillComboUtil;
 import com.minecraft.moonlake.util.Util;
@@ -41,6 +42,7 @@ public class PlayerUtil implements KitPvPPlayer {
 
     private int kill;
     private int death;
+    private KitPvPRank rank;
 
     public PlayerUtil(String name) {
 
@@ -200,6 +202,28 @@ public class PlayerUtil implements KitPvPPlayer {
             return Util.rounding(kd, 2);
         }
         return 0.0d;
+    }
+
+    /**
+     * 获取此玩家的 Rank 等级
+     *
+     * @return Rank
+     */
+    @Override
+    public KitPvPRank getRank() {
+
+        return rank;
+    }
+
+    /**
+     * 设置此玩家的 Rank 等级
+     *
+     * @param kitPvPRank Rank
+     */
+    @Override
+    public void setRank(KitPvPRank kitPvPRank) {
+
+        this.rank = kitPvPRank;
     }
 
     /**

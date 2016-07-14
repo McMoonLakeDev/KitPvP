@@ -6,6 +6,8 @@
     <JAVADOC>
       <root url="file://$PROJECT_DIR$/../MoonLakePlugin/doc" />
     </JAVADOC>
-    <SOURCES />
+    <SOURCES>
+      <root url="file://$PROJECT_DIR$/../MoonLakePlugin/src" />
+    </SOURCES>
   </library>
 </component>

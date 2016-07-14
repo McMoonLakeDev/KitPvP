@@ -1,17 +1,22 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.skill.type;
 
+import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.BlockManager;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
 import org.bukkit.entity.FallingBlock;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -54,8 +59,6 @@ public class Shake extends AbstractSkill {
                 }
                 if(done) {
 
-                    owner.send("shake task done.");
-
                     if(shake != null) {
 
                         shake.cancel();
@@ -75,6 +78,7 @@ public class Shake extends AbstractSkill {
 
                             int count = 0;
                             boolean state = false;
+                            List<LivingEntity> source = new ArrayList<>();
 
                             @Override
                             public void run() {
@@ -90,6 +94,11 @@ public class Shake extends AbstractSkill {
                                     if(count >= 5) {
 
                                         done = true;
+
+                                        for(LivingEntity entity : source) {
+
+                                            EntityManager.realDamage(entity, owner, 5d);
+                                        }
                                         return;
                                     }
                                     for(Block block : BlockManager.getFallingBlocksInRadius(owner.getLocation().clone().add(0d, -1d, 0d), count)) {
@@ -103,8 +112,14 @@ public class Shake extends AbstractSkill {
 
                                         for(LivingEntity entity : EntityManager.getEntityInRadius(fallingBlock.getLocation(), 3.5d, owner)) {
 
-                                            EntityManager.realDamage(entity, owner, 10d);
-                                            entity.setVelocity(new Vector(0d, 0.6d, 0d));
+                                            EntityDamageBySkillEvent edbse = new EntityDamageBySkillEvent(entity, Shake.this, owner);
+                                            Bukkit.getServer().getPluginManager().callEvent(edbse);
+
+                                            if(!edbse.isCancelled() && !source.contains(entity)) {
+
+                                                source.add(entity);
+                                                entity.setVelocity(new Vector(0d, 0.6d, 0d));
+                                            }
                                         }
                                     }
                                     count++;

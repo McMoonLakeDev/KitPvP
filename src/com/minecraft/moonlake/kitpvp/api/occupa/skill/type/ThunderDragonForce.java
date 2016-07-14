@@ -1,12 +1,14 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.skill.type;
 
+import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.VectorManager;
+import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
-import org.bukkit.Location;
+import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.Vector;
 
 /**
@@ -32,15 +34,19 @@ public class ThunderDragonForce extends AbstractSkill {
 
             target.getWorld().strikeLightningEffect(target.getLocation());
 
-            for(int i = 0; i < 10; i++) {
+            ParticleEffect.FLAME.display(target.getLocation().clone().add(0d, 1.2d, 0d), 32, 2f, 0.6f, 2f, 0f, 150);
 
-                Vector vector = VectorManager.getRandomCircleVector().multiply(VectorManager.getRandom().nextDouble() * 0.6d);
-                vector.setY(VectorManager.getRandom().nextFloat() * 1.8f);
-                Location location = target.getLocation().clone().add(0d, 1d, 0d).clone().add(vector);
+            for(LivingEntity entity : EntityManager.getEntityInRadius(target.getLocation().clone().add(0d, 1d, 0d), 3d, owner)) {
 
-                ParticleEffect.FLAME.display(location, 32f, 0f, 0f, 0f, 0f, 10);
+                EntityDamageBySkillEvent edbse = new EntityDamageBySkillEvent(entity, ThunderDragonForce.this, owner);
+                Bukkit.getServer().getPluginManager().callEvent(edbse);
 
-                location.subtract(vector);
+                if(!edbse.isCancelled()) {
+
+                    EntityManager.realDamage(entity, owner, 4d);
+                    entity.setFireTicks(60);
+                    entity.setVelocity(new Vector(0d, 0.2d, 0d));
+                }
             }
         }
     }

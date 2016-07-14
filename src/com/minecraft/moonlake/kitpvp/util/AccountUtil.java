@@ -6,7 +6,9 @@ import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.util.player.PlayerUtil;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -78,5 +80,16 @@ public class AccountUtil implements PlayerAccount {
 
             accountMap.remove(name);
         }
+    }
+
+    /**
+     * 获取职业战争所有的在线玩家集合
+     *
+     * @return 玩家集合
+     */
+    @Override
+    public Set<KitPvPPlayer> getOnlinePlayers() {
+
+        return new HashSet<>(accountMap.values());
     }
 }

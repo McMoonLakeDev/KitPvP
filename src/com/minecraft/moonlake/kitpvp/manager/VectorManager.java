@@ -2,7 +2,12 @@ package com.minecraft.moonlake.kitpvp.manager;
 
 import org.bukkit.util.Vector;
 
-import java.util.Random;
+import java.awt.*;
+import java.awt.font.FontRenderContext;
+import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
+import java.util.*;
+import java.util.List;
 
 /**
  * Created by MoonLake on 2016/5/27.
@@ -10,10 +15,12 @@ import java.util.Random;
 public final class VectorManager extends KitPvPManager {
 
     private final static Random random;
+    public final static BufferedImage RKO_IMAGE;
 
     static {
 
         random = new Random(System.nanoTime());
+        RKO_IMAGE = VectorManager.stringToBufferedImage(new Font("Tohoma", 0, 10), "RKO!");
     }
 
     /**
@@ -136,5 +143,106 @@ public final class VectorManager extends KitPvPManager {
         catch (Exception e) { }
 
         return vector;
+    }
+
+    /**
+     * 将一个矢量对象绕 Y 轴向指定角度旋转
+     *
+     * @param vector 矢量
+     * @param angle 角度
+     * @return 旋转角度后的矢量
+     */
+    public static Vector rotateAroundAxisY(Vector vector, double angle) {
+
+        double cos = Math.cos(angle);
+        double sin = Math.sin(angle);
+        double x = vector.getX() * cos + vector.getZ() * sin;
+        double z = vector.getX() * -sin + vector.getZ() * cos;
+        return vector.setX(x).setZ(z);
+    }
+
+    /**
+     * 将指定字符串源转换到缓冲图片对象
+     *
+     * @param font 字体
+     * @param string 字符串
+     * @return  缓冲图片对象
+     */
+    public static BufferedImage stringToBufferedImage(Font font, String... string) {
+
+        BufferedImage image = getStringImage(font, string);
+        Graphics graphics = image.getGraphics();
+        graphics.setColor(Color.black);
+        graphics.setFont(font);
+
+        FontMetrics fontMetrics = graphics.getFontMetrics();
+
+        for(int i = 0; i < string.length; i++) {
+
+            graphics.drawString(string[i], 0, i * fontMetrics.getHeight() + 15);
+        }
+        graphics.dispose();
+
+        return image;
+    }
+
+    /**
+     * 获取字符串所占图片的宽度、高度的缓存图片对象
+     *
+     * @param font 字体
+     * @param strs 字符串源
+     * @return 缓存图片对象
+     */
+    public static BufferedImage getStringImage(Font font, String... strs) {
+
+        BufferedImage image = new BufferedImage(1, 1, 6);
+        Graphics graphics = image.getGraphics();
+        graphics.setFont(font);
+
+        FontRenderContext fontRenderContext = graphics.getFontMetrics().getFontRenderContext();
+        Rectangle2D rectangle2D = font.getStringBounds(getStringArrayMaxLengthString(strs), fontRenderContext);
+        graphics.dispose();
+
+        int width = (int)Math.ceil(rectangle2D.getWidth());
+        int height = 0;
+
+        for(int i = 0; i < strs.length; i++) {
+
+            height += (int)Math.ceil(rectangle2D.getHeight());
+        }
+        return new BufferedImage(width, height, 6);
+    }
+
+    /**
+     * 获取字符串数据最大长度的字符串
+     *
+     * @param strs 字符串数组
+     * @return 最大长度的字符串
+     */
+    public static String getStringArrayMaxLengthString(String[] strs) {
+
+        List<Integer> list = new ArrayList<>();
+        Map<Integer, String> map = new HashMap<>();
+
+        for(int i = 0; i < strs.length; i++) {
+
+            list.add(strs[i].length());
+            map.put(strs[i].length(), strs[i]);
+        }
+        Collections.sort(list);
+
+        return map.get(list.get(list.size() - 1));
+    }
+
+    /**
+     * 获取指定范围的整数型随机数
+     *
+     * @param min 最低范围
+     * @param max 最大范围
+     * @return 范围内的随机数
+     */
+    public static int getRandomNumber(int min, int max) {
+
+        return Math.abs(random.nextInt()) % (max - min + 1) + min;
     }
 }

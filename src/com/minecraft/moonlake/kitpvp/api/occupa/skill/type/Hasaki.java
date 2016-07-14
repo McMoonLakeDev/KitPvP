@@ -1,16 +1,21 @@
 package com.minecraft.moonlake.kitpvp.api.occupa.skill.type;
 
+import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MoonLake on 2016/7/10.
@@ -39,6 +44,7 @@ public class Hasaki extends AbstractSkill {
             Location location = owner.getLocation();
             Vector direction = location.getDirection().normalize();
             double t = 0, phi = 0;
+            List<LivingEntity> source = new ArrayList<>();
 
             @Override
             public void run() {
@@ -77,16 +83,24 @@ public class Hasaki extends AbstractSkill {
                 }
                 for(LivingEntity entity : EntityManager.getEntityInRadius(location, 1.6d, owner)) {
 
-                    EntityManager.realDamage(entity, owner, 10d);
-                    entity.setVelocity(new Vector(0d, 0.75d, 0d));
-                    entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 5f, 1f);
+                    EntityDamageBySkillEvent edbse = new EntityDamageBySkillEvent(entity, Hasaki.this, owner);
+                    Bukkit.getServer().getPluginManager().callEvent(edbse);
+
+                    if(!edbse.isCancelled() && !source.contains(entity)) {
+
+                        source.add(entity);
+                        entity.setVelocity(new Vector(0d, 0.75d, 0d));
+                        entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 5f, 1f);
+                    }
                 }
                 location.subtract(x, y, z);
 
                 if(t > 15) {
 
-                    owner.send("hasaki task done.");
+                    for(LivingEntity entity : source) {
 
+                        EntityManager.realDamage(entity, owner, 5d);
+                    }
                     cancel();
                 }
             }

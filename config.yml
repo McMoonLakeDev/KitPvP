@@ -1,10 +1,10 @@
 ###################################################
-# KitPvP 月色之湖大型多人在线角色扮演插件         #
+# KitPvP 月色之湖职业战争插件                     #
 # 作者：Month_Light、Simon、Ni_xiaoqi、Ruiqi_666  #
 ###################################################
 
 # 插件版本号
-version: A-1.2.5
+version: B-2.0
 
 # 是否开启调试功能
 # 如遇到 Bug 可尝试反馈给作者进行修复
@@ -19,20 +19,18 @@ Prefix: '&3MoonLake &e>> &f'
 # 将此处修改为 en_US 即可 其他同
 Language: zh_CN
 
-# 数据库配置
-MySQL:
+# 成功击杀玩家奖励的金币数量
+# 如果玩家拥有权限 moonlake.kitpvp.dmoney
+# 则获得双倍金币奖励
+Money: 3
 
-  # 数据库的名称
-  Database: moonlake_kitpvp
+# 玩家聊天配置
+PlayerChat:
 
-  # 数据库的地址
-  Host: 127.0.0.1
-
-  # 数据库的端口
-  Port: 3306
-
-  # 数据库的用户名
-  Username: root
-
-  # 数据库的密码
-  Password: moonlake
+  # 聊天的格式化内容
+  # 可用变量: %rank, %player, %message
+  # 变量解释:
+  #   %rank: 玩家的 Rank 等级名称
+  #   %player: 玩家的显示名
+  #   %message: 玩家发送的消息
+  Format: '&f[&b%rank&f] &f%player &e>> &7%message'

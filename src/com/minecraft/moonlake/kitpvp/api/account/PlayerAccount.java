@@ -2,6 +2,8 @@ package com.minecraft.moonlake.kitpvp.api.account;
 
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 
+import java.util.Set;
+
 /**
  * Created by MoonLake on 2016/7/9.
  */
@@ -37,4 +39,11 @@ public interface PlayerAccount {
      * @param name 玩家名
      */
     void remove(String name);
+
+    /**
+     * 获取职业战争所有的在线玩家集合
+     *
+     * @return 玩家集合
+     */
+    Set<KitPvPPlayer> getOnlinePlayers();
 }

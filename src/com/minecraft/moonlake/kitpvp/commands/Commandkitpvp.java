@@ -77,17 +77,28 @@ public class Commandkitpvp implements CommandExecutor {
             }
             else if(args.length == 2) {
 
-                if(args[0].equalsIgnoreCase("occupa")) {
+                if(args[0].equalsIgnoreCase("setoccupa")) {
 
-                    occupa(kitPvPPlayer, args[1], null);
+                    setOccupa(kitPvPPlayer, args[1], null);
+                }
+                else if(args[0].equalsIgnoreCase("setspawnpoint")) {
+
+                    if(args[1].equalsIgnoreCase("next")) {
+
+                        setSpawnPoint(kitPvPPlayer);
+                    }
+                    else if(args[1].equalsIgnoreCase("clear")) {
+
+                        clearSpawnPoint(kitPvPPlayer);
+                    }
                 }
                 return true;
             }
             else if(args.length == 3) {
 
-                if(args[0].equalsIgnoreCase("occupa")) {
+                if(args[0].equalsIgnoreCase("setoccupa")) {
 
-                    occupa(kitPvPPlayer, args[1], args[2]);
+                    setOccupa(kitPvPPlayer, args[1], args[2]);
                 }
                 return true;
             }
@@ -103,7 +114,9 @@ public class Commandkitpvp implements CommandExecutor {
                 "/kitpvp opengui - " + l18n.$("command.kitPvP.help.openGUI"),
                 "/kitpvp setlobby - " + l18n.$("command.kitPvP.help.setLobby"),
                 "/kitpvp setlobbypoint - " + l18n.$("command.kitPvP.help.setLobbyPoint"),
-                "/kitpvp occupa <O> [T] - " + l18n.$("command.kitPvP.help.occupa"),
+                "/kitpvp setoccupa <O> [T] - " + l18n.$("command.kitPvP.help.occupa"),
+                "/kitpvp setspawnpoint next - " + l18n.$("command.kitpvp.help.setSpawnPoint"),
+                "/kitpvp setspawnpoint clear - " + l18n.$("command.kitpvp.help.setSpawnPoint.clear")
         };
         kitPvPPlayer.send(helps);
     }
@@ -151,7 +164,7 @@ public class Commandkitpvp implements CommandExecutor {
         kitPvPPlayer.l18n("command.kitPvP.setLobbyPoint");
     }
 
-    private void occupa(KitPvPPlayer kitPvPPlayer, String type, String target) {
+    private void setOccupa(KitPvPPlayer kitPvPPlayer, String type, String target) {
 
         if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.occupa")) {
 
@@ -190,5 +203,29 @@ public class Commandkitpvp implements CommandExecutor {
         }
         kitPvPPlayer.getOccupaGUI().openGUI();
         kitPvPPlayer.playSound(Sound.ENTITY_ARROW_HIT_PLAYER, 10f, 1f);
+    }
+
+    private void setSpawnPoint(KitPvPPlayer kitPvPPlayer) {
+
+        if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.setspawnpoint")) {
+
+            kitPvPPlayer.l18n("command.permission.notHave");
+            return;
+        }
+        DataManager.setKitPvPSpawnData(kitPvPPlayer.getLocation());
+
+        kitPvPPlayer.l18n("command.kitPvP.setSpawnPoint");
+    }
+
+    private void clearSpawnPoint(KitPvPPlayer kitPvPPlayer) {
+
+        if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.clearspawnpoint")) {
+
+            kitPvPPlayer.l18n("command.permission.notHave");
+            return;
+        }
+        DataManager.clearKitPvPSpawnData();
+
+        kitPvPPlayer.l18n("command.kitPvP.clearSpawnPoint");
     }
 }
