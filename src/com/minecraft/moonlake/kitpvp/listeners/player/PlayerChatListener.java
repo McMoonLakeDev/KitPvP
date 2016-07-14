@@ -37,6 +37,6 @@ public class PlayerChatListener implements Listener {
                 .replace("%player", kitPvPPlayer.getName())
                 .replace("%message", Util.fColor(message));
 
-        return string;
+        return Util.color(string);
     }
 }

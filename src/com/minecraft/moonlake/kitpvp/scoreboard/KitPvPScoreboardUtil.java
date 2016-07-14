@@ -5,10 +5,7 @@ import com.minecraft.moonlake.kitpvp.api.player.scoreboard.KitPvPScoreboard;
 import com.minecraft.moonlake.kitpvp.rank.KitPvPRank;
 import com.minecraft.moonlake.util.Util;
 import org.bukkit.Bukkit;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
-import org.bukkit.scoreboard.Score;
-import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.*;
 
 /**
  * Created by MoonLake on 2016/7/11.
@@ -18,12 +15,14 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
     private final KitPvPPlayer kitPvPPlayer;
     private final Scoreboard scoreboard;
     private final Objective objective;
+    private final Team team;
 
     public KitPvPScoreboardUtil(KitPvPPlayer kitPvPPlayer) {
 
         this.kitPvPPlayer = kitPvPPlayer;
         this.scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         this.objective = scoreboard.getObjective("kitpvp") == null ? scoreboard.registerNewObjective("kitpvp", "dummy") : scoreboard.getObjective("kitpvp");
+        this.team = scoreboard.getTeam("kitpvp") == null ? scoreboard.registerNewTeam("kitpvp") : scoreboard.getTeam("kitpvp");
     }
 
     /**
@@ -47,6 +46,9 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
         objective.getScore("").setScore(1);
         objective.getScore(Util.color("   &ewww.mcyszh.com")).setScore(0);
 
+        team.addEntry(kitPvPPlayer.getName());
+        team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
+
         kitPvPPlayer.getBukkitPlayer().setScoreboard(scoreboard);
     }
 
@@ -56,6 +58,7 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
     @Override
     public void unregister() {
 
+        team.unregister();
         objective.unregister();
         scoreboard.clearSlot(DisplaySlot.SIDEBAR);
     }
@@ -89,7 +92,6 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
             updateRank(updateRank);
 
             kitPvPPlayer.setRank(updateRank);
-            kitPvPPlayer.l18n("player.kitPvP.rank.update", updateRank.getRankName());
         }
     }
 

@@ -54,7 +54,6 @@ player.sign.use.permission.notHave=你没有使用职业战争的木牌权限.
 player.kitPvP.join.server=#玩家 {0} 成功加入到月色之湖职业战争.
 player.kitPvP.quit.server=#玩家 {0} 已退出月色之湖职业战争.
 player.kitPvP.join.battlefield=您以职业 {0} 成功加入到职业战争战场!!!
-player.kitPvP.rank.update=您的 Rank 等级成功升级到 {0} 恭喜!
 
 player.kill.player=您成功击杀玩家 {0} 获得 {1} 点金币奖励.
 player.kill.player.supply=您获得击杀玩家的补给物奖励.
