@@ -33,37 +33,40 @@ public class PlayerDeathListener implements Listener {
 
         KitPvPPlayer deather = AccountManager.get(event.getEntity().getName());
 
-        if(deather.getKiller() != null) {
-
-            KitPvPPlayer killer = deather.getKiller();
-
-            killer.getScoreboard().updateKill(killer.getKill() + 1);
-            OccupaManager.onKillPlayer(killer, deather);
-            OccupaManager.supplyKitPvP(killer);
-        }
-    }
-
-    @EventHandler(priority = EventPriority.HIGHEST)
-    public void onEntity(PlayerDeathEvent event) {
-
-        KitPvPPlayer deather = AccountManager.get(event.getEntity().getName());
-
         if(deather.getLastDamageCause() instanceof EntityDamageByEntityEvent) {
 
             EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)deather.getLastDamageCause();
             Entity killer = edbee.getDamager();
 
-            if(killer != null && !(killer instanceof Player)) {
+            if(killer != null && killer instanceof Player && deather.getKiller() != null) {
+
+                if(AccountManager.get(killer.getName()).getName().equalsIgnoreCase(deather.getKiller().getName())) {
+
+                    KitPvPPlayer killerPlayer = deather.getKiller();
+
+                    killerPlayer.getScoreboard().updateKill(killerPlayer.getKill() + 1);
+                    OccupaManager.onKillPlayer(killerPlayer, deather);
+                    OccupaManager.supplyKitPvP(killerPlayer);
+                }
+            }
+            else if(killer != null && !(killer instanceof Player)) {
 
                 if(killer instanceof Arrow && ((Arrow)killer).getShooter() instanceof Player) {
 
                     KitPvPPlayer killerPlayer = AccountManager.get(((Player)((Arrow)killer).getShooter()).getName());
 
-                    killerPlayer.getScoreboard().updateKill(killerPlayer.getKill() + 1);
-                    OccupaManager.onKillPlayer(killerPlayer, deather);
-                    OccupaManager.supplyKitPvP(killerPlayer);
+                    if(killerPlayer.getName().equalsIgnoreCase(deather.getName())) {
 
-                    event.setDeathMessage("玩家 " + deather.getName() + " 被 " + killerPlayer.getName() + " 的箭射中了膝盖,倒地不起...");
+                        event.setDeathMessage("玩家 " + deather.getName() + " 被自己的箭给射了个透心凉...");
+                    }
+                    else {
+
+                        killerPlayer.getScoreboard().updateKill(killerPlayer.getKill() + 1);
+                        OccupaManager.onKillPlayer(killerPlayer, deather);
+                        OccupaManager.supplyKitPvP(killerPlayer);
+
+                        event.setDeathMessage("玩家 " + deather.getName() + " 被 " + killerPlayer.getName() + " 的箭射中了膝盖,倒地不起...");
+                    }
                 }
             }
         }

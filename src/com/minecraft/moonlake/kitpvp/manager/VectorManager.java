@@ -20,7 +20,7 @@ public final class VectorManager extends KitPvPManager {
     static {
 
         random = new Random(System.nanoTime());
-        RKO_IMAGE = VectorManager.stringToBufferedImage(new Font("Tohoma", 0, 10), "RKO!");
+        RKO_IMAGE = VectorManager.stringToBufferedImage(new Font("Tohoma", 0, 12), "RKO!");
     }
 
     /**

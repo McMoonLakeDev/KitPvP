@@ -386,5 +386,6 @@ public final class DataManager extends KitPvPManager {
         kitPvPPlayer.resetHealth();
         kitPvPPlayer.getInventory().clear();
         kitPvPPlayer.clearPotionEffect();
+        kitPvPPlayer.getBukkitPlayer().setLevel(0);
     }
 }

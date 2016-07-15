@@ -42,12 +42,12 @@ public class KitPvPScoreboardUtil implements KitPvPScoreboard {
         objective.getScore("  ").setScore(5);
         objective.getScore(Util.color("&b> &eK/D比: &d" + kitPvPPlayer.getKD())).setScore(4);
         objective.getScore(" ").setScore(3);
-        objective.getScore(Util.color("&e官方Q群: 377607025")).setScore(2);
+        objective.getScore(Util.color("&e官方Q群: &a377607025")).setScore(2);
         objective.getScore("").setScore(1);
         objective.getScore(Util.color("   &ewww.mcyszh.com")).setScore(0);
 
-        team.addEntry(kitPvPPlayer.getName());
         team.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM);
+        team.addEntry(kitPvPPlayer.getName());
 
         kitPvPPlayer.getBukkitPlayer().setScoreboard(scoreboard);
     }

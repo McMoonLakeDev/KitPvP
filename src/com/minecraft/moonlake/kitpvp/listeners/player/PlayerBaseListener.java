@@ -41,6 +41,7 @@ public class PlayerBaseListener implements Listener {
             kitPvPPlayer.getScoreboard().register();
             kitPvPPlayer.getOccupaGUI().loadKitPvPOccupaData();
 
+            DataManager.resetKitPvPState(kitPvPPlayer);
             DataManager.loadKitPvPPlayerData(kitPvPPlayer);
         }
         if(DataManager.isSetLobbyPoint()) {

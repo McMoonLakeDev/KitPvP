@@ -99,7 +99,7 @@ public class Hasaki extends AbstractSkill {
 
                     for(LivingEntity entity : source) {
 
-                        EntityManager.realDamage(entity, owner, 5d);
+                        EntityManager.realDamage(entity, owner, 8d);
                     }
                     cancel();
                 }

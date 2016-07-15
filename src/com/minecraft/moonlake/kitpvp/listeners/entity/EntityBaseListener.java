@@ -3,12 +3,14 @@ package com.minecraft.moonlake.kitpvp.listeners.entity;
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.manager.DataManager;
+import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -42,6 +44,15 @@ public class EntityBaseListener implements Listener {
 
                 event.setCancelled(true);
             }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onHit(ProjectileHitEvent event) {
+
+        if(event.getEntity() instanceof Arrow) {
+
+            event.getEntity().remove();
         }
     }
 }

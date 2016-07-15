@@ -35,7 +35,6 @@ public class Ranger extends AbstractOccupa {
                 .setUnbreakable(true)
                 .addEnchant(Enchantment.ARROW_INFINITE, 1)
                 .setMoveSpeed(-0.15, true, Itemlib.AttributeType.Slot.MAIN_HAND)
-                .setMoveSpeed(-0.15, true, Itemlib.AttributeType.Slot.OFF_HAND)
                 .build();
     }
 

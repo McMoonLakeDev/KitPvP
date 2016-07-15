@@ -43,7 +43,7 @@ public class ThunderDragonForce extends AbstractSkill {
 
                 if(!edbse.isCancelled()) {
 
-                    EntityManager.realDamage(entity, owner, 4d);
+                    EntityManager.realDamage(entity, owner, 6d);
                     entity.setFireTicks(60);
                     entity.setVelocity(new Vector(0d, 0.2d, 0d));
                 }

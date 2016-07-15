@@ -700,7 +700,7 @@ public class PlayerUtil implements KitPvPPlayer {
     @Override
     public KitPvPPlayer getKiller() {
 
-        return getBukkitPlayer().getKiller() != null ? AccountManager.get(getBukkitPlayer().getName()) : null;
+        return getBukkitPlayer().getKiller() != null ? AccountManager.get(getBukkitPlayer().getKiller().getName()) : null;
     }
 
     /**

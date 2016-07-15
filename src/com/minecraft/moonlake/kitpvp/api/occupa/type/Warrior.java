@@ -31,7 +31,7 @@ public class Warrior extends AbstractOccupa {
     @Override
     public double getWeaponDamage() {
 
-        return 6.5d;
+        return 4.5d;
     }
 
     /**

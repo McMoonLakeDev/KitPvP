@@ -9,6 +9,7 @@ import com.minecraft.moonlake.kitpvp.manager.VectorManager;
 import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
@@ -64,6 +65,8 @@ public class RKO extends AbstractSkill {
                 if(!state) {
 
                     state = true;
+
+                    owner.getWorld().playSound(owner.getLocation(), Sound.ENTITY_ENDERDRAGON_FLAP, 5f, 1f);
 
                     for(LivingEntity entity : EntityManager.getEntityInRadius(owner.getLocation(), 5d, owner)) {
 

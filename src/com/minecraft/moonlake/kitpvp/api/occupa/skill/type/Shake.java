@@ -97,7 +97,7 @@ public class Shake extends AbstractSkill {
 
                                         for(LivingEntity entity : source) {
 
-                                            EntityManager.realDamage(entity, owner, 5d);
+                                            EntityManager.realDamage(entity, owner, 6d);
                                         }
                                         return;
                                     }

@@ -100,7 +100,7 @@ public class GhostFlashBurst extends AbstractSkill {
 
                                 for(LivingEntity entity : flashEntityList) {
 
-                                    EntityManager.realDamage(entity, owner, 4d);
+                                    EntityManager.realDamage(entity, owner, 6d);
                                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
                                     entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getLocation(), 1);
                                 }
