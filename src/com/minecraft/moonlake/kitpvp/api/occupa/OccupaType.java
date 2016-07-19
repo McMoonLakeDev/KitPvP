@@ -34,6 +34,10 @@ public enum OccupaType {
      * 职业类型: 魔法师
      */
     MAGICIAN("Magician", "魔法师", new BuyType(BuyType.Type.POINT, 1000), Material.BLAZE_ROD, Magician.class, OccupaInfo.MAGICIAN),
+    /**
+     * 职业类型: 机枪手
+     */
+    GUNNER("Gunner", "机枪手", new BuyType(BuyType.Type.POINT, 1500), Material.IRON_BARDING, Gunner.class, OccupaInfo.GUNNER),
     ;
 
     private String type;

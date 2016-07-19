@@ -35,7 +35,7 @@ public class PlayerChatListener implements Listener {
         String string = new String(format)
                 .replace("%rank", kitPvPPlayer.getRank().getRankName())
                 .replace("%player", kitPvPPlayer.getName())
-                .replace("%message", Util.fColor(message));
+                .replace("%message", Util.fColor(message == null ? "" : message));
 
         return Util.color(string);
     }

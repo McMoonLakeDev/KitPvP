@@ -38,7 +38,7 @@ public class PlayerBaseListener implements Listener {
 
             KitPvPPlayer kitPvPPlayer = AccountManager.create(player.getName());
             kitPvPPlayer.setRank(KitPvPRank.LEVEL_0);
-            kitPvPPlayer.getScoreboard().register();
+            kitPvPPlayer.getKitPvPScoreboard().register();
             kitPvPPlayer.getOccupaGUI().loadKitPvPOccupaData();
 
             DataManager.resetKitPvPState(kitPvPPlayer);
@@ -61,7 +61,7 @@ public class PlayerBaseListener implements Listener {
             DataManager.saveKitPvPPlayerData(kitPvPPlayer);
             DataManager.resetKitPvPState(kitPvPPlayer);
 
-            kitPvPPlayer.getScoreboard().unregister();
+            kitPvPPlayer.getKitPvPScoreboard().unregister();
         }
         AccountManager.remove(event.getPlayer().getName());
         event.setQuitMessage(l18n.$("player.kitPvP.quit.server", event.getPlayer().getName()));

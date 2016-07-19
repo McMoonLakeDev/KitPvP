@@ -4,8 +4,8 @@ import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.EntityManager;
-import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import com.minecraft.moonlake.manager.EntityManager;
+import com.minecraft.moonlake.particle.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -34,8 +34,8 @@ public class GhostFlashBurst extends AbstractSkill {
     @Override
     public void cast(KitPvPPlayer owner) {
 
-        Vector vector = owner.getLocation().getDirection().multiply(3d).setY(0.4d);
-        owner.setVector(vector);
+        Vector vector = owner.getDirection().multiply(2.5d).setY(0.4d);
+        owner.setVelocity(vector);
 
         new BukkitRunnable() {
 
@@ -100,9 +100,9 @@ public class GhostFlashBurst extends AbstractSkill {
 
                                 for(LivingEntity entity : flashEntityList) {
 
-                                    EntityManager.realDamage(entity, owner, 6d);
+                                    EntityManager.realDamage(entity, owner, 5d);
                                     entity.getWorld().playSound(entity.getLocation(), Sound.ENTITY_GENERIC_EXPLODE, 1f, 1f);
-                                    entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getLocation(), 1);
+                                    entity.getWorld().spawnParticle(Particle.EXPLOSION_LARGE, entity.getEyeLocation(), 1);
                                 }
                                 done = true;
                             }

@@ -3,7 +3,7 @@ package com.minecraft.moonlake.kitpvp.language;
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.language.KitPvPLanguage;
 import com.minecraft.moonlake.kitpvp.manager.ConfigManager;
-import com.minecraft.moonlake.kitpvp.manager.IoManager;
+import com.minecraft.moonlake.manager.IoManager;
 import com.minecraft.moonlake.util.Util;
 
 import java.io.File;
@@ -59,7 +59,7 @@ public class KitPvPLanguageUtil implements KitPvPLanguage {
             language = new File(main.getDataFolder(), folder + "/zh_CN.lang");
             setting = "zh_CN";
         }
-        kvMap = IoManager.readLangFile(language);
+        kvMap = IoManager.readLangFile(ConfigManager.get("Prefix").asString(), language);
         main.log("成功载入 '" + setting + "' 语言文件文本消息.");
     }
 

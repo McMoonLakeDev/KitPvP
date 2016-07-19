@@ -44,8 +44,8 @@ public class Warrior extends AbstractOccupa {
 
         return new ItemBuilder(getWeaponType(), 0, "&a碧水剑")
                 .setAttackDamage(getWeaponDamage(), false, Itemlib.AttributeType.Slot.MAIN_HAND)
-                .setAttackSpeed(-3.0d, false, Itemlib.AttributeType.Slot.MAIN_HAND)
-                .setMoveSpeed(0.1, true, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setAttackSpeed(-2.6d, false, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setMoveSpeed(0.15, true, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setUnbreakable(true)
                 .build();
     }

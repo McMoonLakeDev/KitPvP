@@ -4,9 +4,9 @@ import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.BlockManager;
-import com.minecraft.moonlake.kitpvp.manager.EntityManager;
-import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import com.minecraft.moonlake.manager.BlockManager;
+import com.minecraft.moonlake.manager.EntityManager;
+import com.minecraft.moonlake.particle.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -42,7 +42,7 @@ public class Shake extends AbstractSkill {
 
         Vector vector = owner.getLocation().getDirection().multiply(1.2d).setY(0.6d);
         owner.setNoDamageTicks(100);
-        owner.setVector(vector);
+        owner.setVelocity(vector);
 
         new BukkitRunnable() {
 
@@ -71,7 +71,7 @@ public class Shake extends AbstractSkill {
 
                     if(shake == null) {
 
-                        owner.setVector(new Vector(0d, 1.2d, 0d));
+                        owner.setVelocity(new Vector(0d, 1.2d, 0d));
                         ParticleEffect.FLAME.display(owner.getLocation(), 32, 2f, 0.6f, 2f, 0f, 100);
 
                         shake = new BukkitRunnable() {

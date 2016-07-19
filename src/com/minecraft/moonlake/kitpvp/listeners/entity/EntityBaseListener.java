@@ -3,6 +3,7 @@ package com.minecraft.moonlake.kitpvp.listeners.entity;
 import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.manager.DataManager;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -27,7 +28,9 @@ public class EntityBaseListener implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onSkillDamage(EntityDamageBySkillEvent event) {
 
-        if(event.isPlayer() && DataManager.contains(event.getEntity().getLocation())) {
+        if((event.isPlayer() && DataManager.contains(event.getEntity().getLocation())) ||
+           (event.isPlayer() && (event.asPlayer().getGameMode() == GameMode.SPECTATOR ||
+                                 event.asPlayer().getGameMode() == GameMode.CREATIVE))) {
 
             event.setCancelled(true);
         }

@@ -4,8 +4,8 @@ import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.EntityManager;
-import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import com.minecraft.moonlake.manager.EntityManager;
+import com.minecraft.moonlake.particle.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -99,7 +99,7 @@ public class Hasaki extends AbstractSkill {
 
                     for(LivingEntity entity : source) {
 
-                        EntityManager.realDamage(entity, owner, 8d);
+                        EntityManager.realDamage(entity, owner, 7d);
                     }
                     cancel();
                 }

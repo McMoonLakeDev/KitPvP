@@ -4,10 +4,16 @@ import com.minecraft.moonlake.api.itemlib.ItemBuilder;
 import com.minecraft.moonlake.kitpvp.api.occupa.Occupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import com.minecraft.moonlake.manager.RandomManager;
+import org.bukkit.*;
+import org.bukkit.entity.Firework;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by MoonLake on 2016/7/9.
@@ -41,7 +47,7 @@ public final class OccupaManager extends KitPvPManager {
 
         if(kitPvPPlayer != null && occupa != null) {
 
-            kitPvPPlayer.resetHealth();
+            kitPvPPlayer.resetMaxHealth();
             kitPvPPlayer.clearPotionEffect();
             kitPvPPlayer.getInventory().clear();
 
@@ -49,7 +55,7 @@ public final class OccupaManager extends KitPvPManager {
             kitPvPPlayer.setMaxHealth(occupa.getMaxHealth());
             kitPvPPlayer.setHealth(kitPvPPlayer.getMaxHealth());
             kitPvPPlayer.getBukkitPlayer().setFoodLevel(20);
-            kitPvPPlayer.getInventory().setItem(0, occupa.getWeapon());
+            kitPvPPlayer.getInventory().setItem(0, onAddOccupaSkillInfo(kitPvPPlayer, occupa.getWeapon()));
             kitPvPPlayer.getInventory().addItem(ItemManager.baseHealthPotion(4));
             kitPvPPlayer.getInventory().addItem(ItemManager.baseFoodItemStack(16));
             kitPvPPlayer.getInventory().setArmorContents(occupa.getArmors());
@@ -71,6 +77,29 @@ public final class OccupaManager extends KitPvPManager {
                 kitPvPPlayer.l18n("player.kitPvP.join.battlefield", occupa.getType().getName());
             }
         }
+    }
+
+    /**
+     * 给指定玩家的武器物品栈添加技能信息
+     *
+     * @param kitPvPPlayer 玩家
+     * @param itemStack 武器物品栈
+     * @return 添加信息后的武器物品栈
+     */
+    public static ItemStack onAddOccupaSkillInfo(KitPvPPlayer kitPvPPlayer, ItemStack itemStack) {
+
+        List<String> occupaInfo = kitPvPPlayer.getOccupa().getType().getInfo().getLore();
+        List<String> finalSkillInfo = new ArrayList<>();
+
+        finalSkillInfo.add("");
+
+        for(int i = 5; i < occupaInfo.size(); i++) {
+
+            finalSkillInfo.add(occupaInfo.get(i));
+        }
+        finalSkillInfo.add("");
+
+        return getMain().getMoonLake().getItemlib().setLore(itemStack, finalSkillInfo);
     }
 
     /**
@@ -101,5 +130,36 @@ public final class OccupaManager extends KitPvPManager {
         kitPvPPlayer.playSound(Sound.ENTITY_ITEM_PICKUP, 10f, 1f);
 
         kitPvPPlayer.l18n("player.kill.player.supply");
+    }
+
+    /**
+     * 在指定位置生成死亡烟花
+     *
+     * @param location 位置
+     */
+    public static void deathFireworks(Location location, int count) {
+
+        if(count < 0) {
+
+            count = 1;
+        }
+        for(int i = 0; i < count; i++) {
+
+            Firework firework = location.getWorld().spawn(location, Firework.class);
+            FireworkMeta fireworkMeta = firework.getFireworkMeta();
+            fireworkMeta.addEffect(FireworkEffect.builder().with(FireworkEffect.Type.BALL).withColor(getRandomColor()).build());
+            firework.setFireworkMeta(fireworkMeta);
+            firework.detonate();
+        }
+    }
+
+    /**
+     * 获取 Bukkit 的随机颜色对象
+     *
+     * @return 随机颜色
+     */
+    public static Color getRandomColor() {
+
+        return Color.fromBGR(RandomManager.getRandom().nextInt(255), RandomManager.getRandom().nextInt(255), RandomManager.getRandom().nextInt(255));
     }
 }

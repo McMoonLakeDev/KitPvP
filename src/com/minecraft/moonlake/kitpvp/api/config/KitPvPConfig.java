@@ -1,6 +1,6 @@
 package com.minecraft.moonlake.kitpvp.api.config;
 
-import com.minecraft.moonlake.kitpvp.data.ConversionData;
+import com.minecraft.moonlake.data.ConversionData;
 
 import java.util.List;
 

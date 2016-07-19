@@ -4,7 +4,7 @@
 ###################################################
 
 # 插件版本号
-version: B-2.0
+version: B-2.1
 
 # 是否开启调试功能
 # 如遇到 Bug 可尝试反馈给作者进行修复
@@ -34,3 +34,14 @@ PlayerChat:
   #   %player: 玩家的显示名
   #   %message: 玩家发送的消息
   Format: '&f[&b%rank&f] &f%player &e>> &7%message'
+
+# 玩家血条配置
+PlayerBar:
+
+  # 玩家的血条标题内容
+  # 可用变量: %money, %point, %player
+  # 变量解释:
+  #   %money: 玩家的金币数量
+  #   %point: 玩家的点券数量
+  #   %player: 玩家的显示名
+  Title: '&cMoonLake 职业战争 &7| &a欢迎您: &b%player &7| &2金币: &b%money &7| &d点券: &b%point'

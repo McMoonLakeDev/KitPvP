@@ -4,11 +4,11 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
 import com.minecraft.moonlake.kitpvp.manager.DataManager;
-import com.minecraft.moonlake.kitpvp.manager.EntityManager;
 import com.minecraft.moonlake.kitpvp.manager.OccupaManager;
 import org.bukkit.entity.Arrow;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.Snowball;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -38,16 +38,13 @@ public class PlayerDeathListener implements Listener {
             EntityDamageByEntityEvent edbee = (EntityDamageByEntityEvent)deather.getLastDamageCause();
             Entity killer = edbee.getDamager();
 
-            if(killer != null && killer instanceof Player && deather.getKiller() != null) {
+            if(killer != null && killer instanceof Player && deather.getKiller() != null && !killer.getName().equalsIgnoreCase(deather.getName())) {
 
-                if(AccountManager.get(killer.getName()).getName().equalsIgnoreCase(deather.getKiller().getName())) {
+                KitPvPPlayer killerPlayer = deather.getKiller();
 
-                    KitPvPPlayer killerPlayer = deather.getKiller();
-
-                    killerPlayer.getScoreboard().updateKill(killerPlayer.getKill() + 1);
-                    OccupaManager.onKillPlayer(killerPlayer, deather);
-                    OccupaManager.supplyKitPvP(killerPlayer);
-                }
+                killerPlayer.getKitPvPScoreboard().updateKill(killerPlayer.getKill() + 1);
+                OccupaManager.onKillPlayer(killerPlayer, deather);
+                OccupaManager.supplyKitPvP(killerPlayer);
             }
             else if(killer != null && !(killer instanceof Player)) {
 
@@ -61,11 +58,28 @@ public class PlayerDeathListener implements Listener {
                     }
                     else {
 
-                        killerPlayer.getScoreboard().updateKill(killerPlayer.getKill() + 1);
+                        killerPlayer.getKitPvPScoreboard().updateKill(killerPlayer.getKill() + 1);
                         OccupaManager.onKillPlayer(killerPlayer, deather);
                         OccupaManager.supplyKitPvP(killerPlayer);
 
                         event.setDeathMessage("玩家 " + deather.getName() + " 被 " + killerPlayer.getName() + " 的箭射中了膝盖,倒地不起...");
+                    }
+                }
+                else if(killer instanceof Snowball && ((Snowball)killer).getShooter() instanceof Player) {
+
+                    KitPvPPlayer killerPlayer = AccountManager.get(((Player)((Snowball)killer).getShooter()).getName());
+
+                    if(killerPlayer.getName().equalsIgnoreCase(deather.getName())) {
+
+                        event.setDeathMessage("玩家 " + deather.getName() + " 被自己的子弹给射成了马蜂窝...");
+                    }
+                    else {
+
+                        killerPlayer.getKitPvPScoreboard().updateKill(killerPlayer.getKill() + 1);
+                        OccupaManager.onKillPlayer(killerPlayer, deather);
+                        OccupaManager.supplyKitPvP(killerPlayer);
+
+                        event.setDeathMessage("玩家 " + deather.getName() + " 被 " + killerPlayer.getName() + " 的子弹击中,痛快的死去...");
                     }
                 }
             }
@@ -79,9 +93,9 @@ public class PlayerDeathListener implements Listener {
 
         if(deather != null) {
 
-            deather.getScoreboard().updateDeath(deather.getDeath() + 1);
+            deather.getKitPvPScoreboard().updateDeath(deather.getDeath() + 1);
 
-            EntityManager.deathFireworks(deather.getEyeLocation().subtract(0d, 0.2d, 0d), 3);
+            OccupaManager.deathFireworks(deather.getEyeLocation().subtract(0d, 0.2d, 0d), 3);
         }
         event.setDroppedExp(0);
         event.getDrops().clear();

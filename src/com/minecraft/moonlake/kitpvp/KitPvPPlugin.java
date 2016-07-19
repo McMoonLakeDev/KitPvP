@@ -102,6 +102,7 @@ public class KitPvPPlugin extends JavaPlugin implements KitPvP {
         pluginManager.registerEvents(new PlayerDeathListener(getInstance()), this);
         pluginManager.registerEvents(new EntityDeathListener(getInstance()), this);
         pluginManager.registerEvents(new OccupaDamageListener(getInstance()), this);
+        pluginManager.registerEvents(new PlayerEconomyListener(getInstance()), this);
 
         this.log("月色之湖职业战争 KitPvP 插件 v" + getPluginVersion() + " 成功加载.");
     }

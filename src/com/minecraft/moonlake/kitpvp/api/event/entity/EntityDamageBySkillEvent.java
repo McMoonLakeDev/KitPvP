@@ -3,6 +3,7 @@ package com.minecraft.moonlake.kitpvp.api.event.entity;
 import com.minecraft.moonlake.kitpvp.api.event.KitPvPEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.Skill;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import com.minecraft.moonlake.kitpvp.manager.AccountManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -34,6 +35,11 @@ public class EntityDamageBySkillEvent extends KitPvPEvent implements Cancellable
     public boolean isPlayer() {
 
         return getEntity() instanceof Player;
+    }
+
+    public KitPvPPlayer asPlayer() {
+
+        return isPlayer() ? AccountManager.get(((Player)getEntity()).getName()) : null;
     }
 
     public Skill getSkill() {

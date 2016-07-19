@@ -4,14 +4,21 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Player;
+import com.minecraft.moonlake.kitpvp.manager.DataManager;
+import com.minecraft.moonlake.manager.EntityManager;
+import com.minecraft.moonlake.manager.RandomManager;
+import org.bukkit.GameMode;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityShootBowEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.metadata.FixedMetadataValue;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -44,6 +51,14 @@ public class OccupaDamageListener implements Listener {
 
             source.setFireTicks(30);
         }
+        else if(source != null && damager != null && damager instanceof Snowball) {
+
+            if(damager.hasMetadata("GUNNERAMMO") && ((Snowball)damager).getShooter() instanceof Player) {
+
+                KitPvPPlayer kitPvPPlayer = AccountManager.get(((Player)((Snowball)damager).getShooter()).getName());
+                EntityManager.realDamage((LivingEntity)source, kitPvPPlayer, 1d);
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -58,13 +73,49 @@ public class OccupaDamageListener implements Listener {
             if(kitPvPPlayer == null) return;
             if(kitPvPPlayer.getOccupa() == null) return;
             if(kitPvPPlayer.getOccupaType() != OccupaType.RANGER) return;
-            if(!kitPvPPlayer.getBukkitPlayer().hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) return;
 
             Arrow arrow = (Arrow) event.getProjectile();
 
-            arrow.setFireTicks(120);
-            arrow.setShooter(kitPvPPlayer.getBukkitPlayer());
-            arrow.spigot().setDamage(arrow.spigot().getDamage() - 2d);
+            if(kitPvPPlayer.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
+
+                arrow.setFireTicks(120);
+                arrow.setShooter(kitPvPPlayer.getBukkitPlayer());
+                arrow.spigot().setDamage(arrow.spigot().getDamage() - 2d);
+            }
+            else {
+
+                int result = (int) RandomManager.getRandom().nextDouble() * 100;
+
+                if(result >= 70) {
+
+                    arrow.spigot().setDamage(arrow.spigot().getDamage() - 2d * 2);
+                }
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGHEST)
+    public void onInteract(PlayerInteractEvent event) {
+
+        KitPvPPlayer kitPvPPlayer = AccountManager.get(event.getPlayer().getName());
+
+        if(event.getItem() == null) return;
+        if(event.getItem().getType() == Material.AIR) return;
+        if(kitPvPPlayer == null) return;
+        if(kitPvPPlayer.getOccupa() == null) return;
+        if(kitPvPPlayer.getOccupaType() != OccupaType.GUNNER) return;
+        if(kitPvPPlayer.getGameMode() == GameMode.CREATIVE) return;
+        if(kitPvPPlayer.getGameMode() == GameMode.SPECTATOR) return;
+        if(kitPvPPlayer.getOccupa().getWeaponType() != event.getItem().getType()) return;
+        if(DataManager.contains(kitPvPPlayer.getLocation())) return;
+
+        if(event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+
+            Snowball ammo = kitPvPPlayer.launcherProjectile(Snowball.class);
+            ammo.setBounce(false);
+            ammo.setShooter(kitPvPPlayer.getBukkitPlayer());
+            ammo.setMetadata("GUNNERAMMO", new FixedMetadataValue(main.getMain(), "1"));
+            ammo.getWorld().playSound(ammo.getLocation(), Sound.ENTITY_SNOWBALL_THROW, 10f, 1f);
         }
     }
 }

@@ -3,7 +3,6 @@ package com.minecraft.moonlake.kitpvp.api.occupa.skill.type;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
@@ -23,6 +22,6 @@ public class WitheredLeafAnger extends AbstractSkill {
     @Override
     public void cast(KitPvPPlayer owner) {
 
-        owner.getBukkitPlayer().addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 15 * 20, 0, true, true));
+        owner.addPotionEffect(PotionEffectType.FIRE_RESISTANCE, 15 * 20, 0, true, true);
     }
 }

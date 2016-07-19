@@ -4,9 +4,10 @@ import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.EntityManager;
-import com.minecraft.moonlake.kitpvp.manager.VectorManager;
-import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import com.minecraft.moonlake.kitpvp.manager.DataManager;
+import com.minecraft.moonlake.manager.EntityManager;
+import com.minecraft.moonlake.manager.VectorManager;
+import com.minecraft.moonlake.particle.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -40,7 +41,7 @@ public class RKO extends AbstractSkill {
 
             int living = 0;
             boolean state = false;
-            BufferedImage RKO_IMAGE = VectorManager.RKO_IMAGE;
+            BufferedImage RKO_IMAGE = DataManager.getRKOImage();
 
             @Override
             public void run() {

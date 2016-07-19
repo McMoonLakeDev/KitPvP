@@ -30,7 +30,7 @@ public class Tank extends AbstractOccupa {
      */
     public double getMaxHealth() {
 
-        return 30d;
+        return 20d;
     }
 
     /**
@@ -40,7 +40,7 @@ public class Tank extends AbstractOccupa {
      */
     public double getWeaponDamage() {
 
-        return 8d;
+        return 6.5d;
     }
 
     /**
@@ -54,6 +54,7 @@ public class Tank extends AbstractOccupa {
         return new ItemBuilder(getWeaponType(), 0, "&a迷之板砖")
                 .setAttackDamage(getWeaponDamage(), false, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setAttackSpeed(-3.2, false, Itemlib.AttributeType.Slot.MAIN_HAND)
+                .setMoveSpeed(-0.15, true, Itemlib.AttributeType.Slot.MAIN_HAND)
                 .setUnbreakable(true)
                 .build();
     }

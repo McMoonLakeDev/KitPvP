@@ -30,7 +30,7 @@ public enum OccupaInfo {
                     + "    &f冷却时间: &a40s  &8|  &f持续时间: &a4s\n"
                     + "    &f技能组合键: &b" + SkillComboManager.getComboString(new FlameDragonBreath().getCombo()) + "\n"
                     + "  &c雷龙之力: &6召唤雷龙并向准星位置雷击数道闪电\n"
-                    + "    &f冷却时间: &a38s  &8|  &f持续时间: &a3s\n"
+                    + "    &f冷却时间: &a25s  &8|  &f持续时间: &a3s\n"
                     + "    &f技能组合键: &b" + SkillComboManager.getComboString(new ThunderDragonForce().getCombo()) + "\n"
     ),
     RANGER(
@@ -38,7 +38,7 @@ public enum OccupaInfo {
                     + "&f血量: &d20  &8|  &f是否持盾: &a否\n"
                     + "&f装备: &a枯叶灵弓、皮革头盔、皮革甲、皮革腿、皮革鞋\n"
                     + "&f效果: &a无\n"
-                    + "&f被动: &a无\n"
+                    + "&f被动: &a30% 几率攻击翻倍\n"
                     + "&f技能列表: \n"
                     + "  &c枯叶之怒: &6一段时间中发射出的箭增加火焰效果\n"
                     + "    &f冷却时间: &a60s  &8|  &f持续时间: &a12s\n"
@@ -71,6 +71,20 @@ public enum OccupaInfo {
                     + "  &c鬼影闪 · 爆: &6急速跃进冲刺途中单位后爆炸单位并伤害\n"
                     + "    &f冷却时间: &a45s  &8|  &f持续时间: &a5s\n"
                     + "    &f技能组合键: &b" + SkillComboManager.getComboString(new GhostFlashBurst().getCombo()) + "\n"
+    ),
+    GUNNER(
+            " \n"
+                    + "&f血量: &d20  &8|  &f是否持盾: &a否\n"
+                    + "&f装备: &a95式自动步枪、铁头盔、铁护甲、皮革腿、皮革鞋\n"
+                    + "&f效果: &a无\n"
+                    + "&f被动: &a无\n"
+                    + "&f技能列表: \n"
+                    + "  &c闪光弹: &6投掷出闪光弹将落地位置单位造成失明和耳鸣效果\n"
+                    + "    &f冷却时间: &a45s  &8|  &f持续时间: &a5s\n"
+                    + "    &f技能组合键: &b" + SkillComboManager.getComboString(new FlashBang().getCombo()) + "\n"
+                    + "  &c燃烧弹: &6投掷出燃烧弹将落地位置单位长时间造成燃烧伤害\n"
+                    + "    &f冷却时间: &a50s  &8|  &f持续时间: &a8s\n"
+                    + "    &f技能组合键: &b" + SkillComboManager.getComboString(new Molotov().getCombo()) + "\n"
     ),
     ;
 

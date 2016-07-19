@@ -1,6 +1,9 @@
 package com.minecraft.moonlake.kitpvp.manager;
 
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
+import com.minecraft.moonlake.manager.LocationManager;
+import com.minecraft.moonlake.manager.RandomManager;
+import com.minecraft.moonlake.util.Util;
 import com.sk89q.worldedit.bukkit.BukkitWorld;
 import com.sk89q.worldedit.bukkit.selections.Selection;
 import com.sk89q.worldedit.regions.CuboidRegion;
@@ -8,6 +11,8 @@ import com.sk89q.worldedit.world.World;
 import org.bukkit.Location;
 import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,12 +25,14 @@ public final class DataManager extends KitPvPManager {
     private static Location lobbyPoint;
     private static CuboidRegion lobbyRegion;
     private static List<Location> spawnPoint;
+    private final static BufferedImage RKO_IMAGE;
 
     static {
 
         lobbyPoint = null;
         lobbyRegion = null;
         spawnPoint = new ArrayList<>();
+        RKO_IMAGE = Util.stringToBufferedImage(new Font("Tohoma", 0, 12), "RKO!");
     }
 
     /**
@@ -289,7 +296,7 @@ public final class DataManager extends KitPvPManager {
      */
     public static Location getRandomSpawnPoint() {
 
-        return hasSpawnPoint() ? spawnPoint.get(VectorManager.getRandom().nextInt(spawnPoint.size())) : null;
+        return hasSpawnPoint() ? spawnPoint.get(RandomManager.getRandom().nextInt(spawnPoint.size())) : null;
     }
 
     /**
@@ -372,8 +379,8 @@ public final class DataManager extends KitPvPManager {
             }
         }
         YamlConfiguration config = YamlConfiguration.loadConfiguration(data);
-        kitPvPPlayer.getScoreboard().updateKill(config.getInt("Base.Kill"));
-        kitPvPPlayer.getScoreboard().updateDeath(config.getInt("Base.Death"));
+        kitPvPPlayer.getKitPvPScoreboard().updateKill(config.getInt("Base.Kill"));
+        kitPvPPlayer.getKitPvPScoreboard().updateDeath(config.getInt("Base.Death"));
     }
 
     /**
@@ -383,9 +390,19 @@ public final class DataManager extends KitPvPManager {
      */
     public static void resetKitPvPState(KitPvPPlayer kitPvPPlayer) {
 
-        kitPvPPlayer.resetHealth();
+        kitPvPPlayer.resetMaxHealth();
         kitPvPPlayer.getInventory().clear();
         kitPvPPlayer.clearPotionEffect();
         kitPvPPlayer.getBukkitPlayer().setLevel(0);
+    }
+
+    /**
+     * 获取 RKO 字符串的缓存图片对象
+     *
+     * @return 缓存图片对象
+     */
+    public static BufferedImage getRKOImage() {
+
+        return RKO_IMAGE;
     }
 }

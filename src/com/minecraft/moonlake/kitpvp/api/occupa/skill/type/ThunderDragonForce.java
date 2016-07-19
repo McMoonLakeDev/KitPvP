@@ -4,8 +4,8 @@ import com.minecraft.moonlake.kitpvp.api.event.entity.EntityDamageBySkillEvent;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.AbstractSkill;
 import com.minecraft.moonlake.kitpvp.api.occupa.skill.combo.SkillComboType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.kitpvp.manager.EntityManager;
-import com.minecraft.moonlake.kitpvp.particle.ParticleEffect;
+import com.minecraft.moonlake.manager.EntityManager;
+import com.minecraft.moonlake.particle.ParticleEffect;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
 import org.bukkit.entity.LivingEntity;
@@ -21,7 +21,7 @@ public class ThunderDragonForce extends AbstractSkill {
         super("ThunderDragonForce");
 
         setDisplayName("雷龙之力");
-        setCoolDown(38);
+        setCoolDown(25);
         setCombo(new SkillComboType[] { SkillComboType.RIGHT, SkillComboType.LEFT, SkillComboType.LEFT });
     }
 
@@ -43,8 +43,8 @@ public class ThunderDragonForce extends AbstractSkill {
 
                 if(!edbse.isCancelled()) {
 
-                    EntityManager.realDamage(entity, owner, 6d);
-                    entity.setFireTicks(60);
+                    EntityManager.realDamage(entity, owner, 3d);
+                    entity.setFireTicks(70);
                     entity.setVelocity(new Vector(0d, 0.2d, 0d));
                 }
             }
