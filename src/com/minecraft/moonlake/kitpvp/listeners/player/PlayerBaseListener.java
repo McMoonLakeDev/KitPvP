@@ -4,7 +4,9 @@ import com.minecraft.moonlake.kitpvp.api.KitPvP;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
 import com.minecraft.moonlake.kitpvp.language.l18n;
 import com.minecraft.moonlake.kitpvp.manager.AccountManager;
+import com.minecraft.moonlake.kitpvp.manager.ConfigManager;
 import com.minecraft.moonlake.kitpvp.manager.DataManager;
+import com.minecraft.moonlake.kitpvp.manager.EconomyManager;
 import com.minecraft.moonlake.kitpvp.rank.KitPvPRank;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
@@ -23,10 +25,12 @@ import org.bukkit.event.player.PlayerQuitEvent;
 public class PlayerBaseListener implements Listener {
 
     private final KitPvP main;
+    private final int halfwayQuitReduceMoney;
 
     public PlayerBaseListener(KitPvP main) {
 
         this.main = main;
+        this.halfwayQuitReduceMoney = ConfigManager.get("HalfwayQuitReduceMoney").asInt();
     }
 
     @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
@@ -62,6 +66,18 @@ public class PlayerBaseListener implements Listener {
             DataManager.resetKitPvPState(kitPvPPlayer);
 
             kitPvPPlayer.getKitPvPScoreboard().unregister();
+
+            if(kitPvPPlayer.getOccupa() != null) {
+
+                if(halfwayQuitReduceMoney > 0) {
+
+                    if(!kitPvPPlayer.hasPermission("moonlake.kitpvp.ignorehqrm")) {
+
+                        EconomyManager.takeMoney(kitPvPPlayer.getName(), halfwayQuitReduceMoney);
+                        kitPvPPlayer.l18n("player.halfwayQuitReduceMoney", halfwayQuitReduceMoney);
+                    }
+                }
+            }
         }
         AccountManager.remove(event.getPlayer().getName());
         event.setQuitMessage(l18n.$("player.kitPvP.quit.server", event.getPlayer().getName()));

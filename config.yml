@@ -4,7 +4,7 @@
 ###################################################
 
 # 插件版本号
-version: B-2.1
+version: B-2.1.5
 
 # 是否开启调试功能
 # 如遇到 Bug 可尝试反馈给作者进行修复
@@ -23,6 +23,12 @@ Language: zh_CN
 # 如果玩家拥有权限 moonlake.kitpvp.dmoney
 # 则获得双倍金币奖励
 Money: 3
+
+# 如果玩家中途退出进行扣除的金币
+# 此值为 0 则标示不开启此功能
+# 拥有权限 moonlake.kitpvp.ignorehqrm
+# 则可以忽略中途退出带来的扣钱
+HalfwayQuitReduceMoney: 30
 
 # 玩家聊天配置
 PlayerChat:

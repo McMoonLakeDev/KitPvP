@@ -1,14 +1,17 @@
 package com.minecraft.moonlake.kitpvp.manager;
 
 import com.minecraft.moonlake.api.itemlib.ItemBuilder;
+import com.minecraft.moonlake.api.itemlib.firework.FireworkBuilder;
+import com.minecraft.moonlake.api.itemlib.firework.FireworkEffectBuilder;
+import com.minecraft.moonlake.api.itemlib.firework.FireworkType;
 import com.minecraft.moonlake.kitpvp.api.occupa.Occupa;
 import com.minecraft.moonlake.kitpvp.api.occupa.OccupaType;
 import com.minecraft.moonlake.kitpvp.api.player.KitPvPPlayer;
-import com.minecraft.moonlake.manager.RandomManager;
-import org.bukkit.*;
-import org.bukkit.entity.Firework;
+import org.bukkit.FireworkEffect;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -126,7 +129,7 @@ public final class OccupaManager extends KitPvPManager {
 
         kitPvPPlayer.getInventory().addItem(ItemManager.baseHealthPotion(1));
         kitPvPPlayer.getInventory().addItem(ItemManager.baseFoodItemStack(3));
-        kitPvPPlayer.getBukkitPlayer().addPotionEffect(new PotionEffect(PotionEffectType.HEALTH_BOOST,  5 * 20, 0, true, true));
+        kitPvPPlayer.getBukkitPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 8 * 20, 0, true, true));
         kitPvPPlayer.playSound(Sound.ENTITY_ITEM_PICKUP, 10f, 1f);
 
         kitPvPPlayer.l18n("player.kill.player.supply");
@@ -143,23 +146,12 @@ public final class OccupaManager extends KitPvPManager {
 
             count = 1;
         }
+        FireworkBuilder fb = new FireworkBuilder();
+        FireworkEffect effect = new FireworkEffectBuilder().withType(FireworkType.BALL).withColorFromRandom().build();
+
         for(int i = 0; i < count; i++) {
 
-            Firework firework = location.getWorld().spawn(location, Firework.class);
-            FireworkMeta fireworkMeta = firework.getFireworkMeta();
-            fireworkMeta.addEffect(FireworkEffect.builder().with(FireworkEffect.Type.BALL).withColor(getRandomColor()).build());
-            firework.setFireworkMeta(fireworkMeta);
-            firework.detonate();
+            fb.buildToFirework(1, location, effect).detonate();
         }
-    }
-
-    /**
-     * 获取 Bukkit 的随机颜色对象
-     *
-     * @return 随机颜色
-     */
-    public static Color getRandomColor() {
-
-        return Color.fromBGR(RandomManager.getRandom().nextInt(255), RandomManager.getRandom().nextInt(255), RandomManager.getRandom().nextInt(255));
     }
 }
